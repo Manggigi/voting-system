@@ -67,4 +67,7 @@ export const getJudges = async () => {
 	return output;
 };
 
-// TODO: delete user
+export const deleteUser = async (idParameter: number) => {
+	const output = await db.delete(users)
+	.where(eq(users.id, idParameter));
+};
