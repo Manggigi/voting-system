@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from './drizzle';
-import { hackathonTeams, hackathons } from './drizzle/schema';
-import type { NewHackathon, NewHackathonTeams } from '$apptypes';
+import { hackathonJudges, hackathonTeams, hackathons, userVotes } from './drizzle/schema';
+import type { NewHackathon, NewHackathonTeam, NewUserVote } from '$apptypes';
 
 // TODO:
 // Get hackathon details by id
@@ -24,8 +24,38 @@ export const getHackathonById = async (hackathonId: string) => {
 	return hackathonData[0];
 };
 
-export const createTeam = async (teamData: NewHackathonTeams) => {
+export const createTeam = async (teamData: NewHackathonTeam) => {
 	await db.insert(hackathonTeams).values(teamData).execute();
+};
+
+export const getHackathonTeams = async () => {
+	const hackathonTeamsData = await db.select().from(hackathonTeams);
+	return hackathonTeamsData;
+};
+
+export const getHackathonJudges = async () => {
+	const hackathonJudgesData = await db.select().from(hackathonJudges);
+	return hackathonJudgesData;
+};
+
+export const createUserVote = async (userVote: NewUserVote) => {
+	await db.insert(userVotes).values(userVote).execute();
+};
+
+export const getUserVotes = async (hackathonId: string) => {
+	const userVotesData = await db
+		.select()
+		.from(hackathonTeams)
+		.where(eq(hackathonTeams.id, parseInt(hackathonId)));
+	return userVotesData;
+};
+
+export const getUserVoteById = async (userId: string) => {
+	const userVoteData = await db
+		.select()
+		.from(userVotes)
+		.where(eq(userVotes.user_id, parseInt(userId)));
+	return userVoteData[0];
 };
 
 export const getFinalTeamScore = (hackathonId: string) => {
