@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from './drizzle';
-import { hackathonTeams, hackathons } from './drizzle/schema';
-import type { NewHackathon, NewHackathonTeams } from '$apptypes';
+import { hackathonTeams, hackathons, judgeVotes, userVotes } from './drizzle/schema';
+import type { NewHackathon, NewHackathonTeams, NewJudgeVotes, NewUserVotes } from '$apptypes';
 
 // TODO:
 // Get hackathon details by id
@@ -27,6 +27,14 @@ export const getHackathonById = async (hackathonId: string) => {
 export const createTeam = async (teamData: NewHackathonTeams) => {
 	await db.insert(hackathonTeams).values(teamData).execute();
 };
+
+export const createUserVote = async (userVoteData: NewUserVotes) => {
+	await db.insert(userVotes).values(userVoteData).execute();
+};
+
+export const createJudgeVote = async (judgeVoteData: NewJudgeVotes) => {
+	await db.insert(judgeVotes).values(judgeVoteData).execute();
+}
 
 export const getFinalTeamScore = (hackathonId: string) => {
 	console.log('🚀 ~ file: hackathons.ts:11 ~ getFinalTeamScore ~ hackathonId:', hackathonId);
