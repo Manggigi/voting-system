@@ -1,3 +1,9 @@
+DO $$ BEGIN
+ CREATE TYPE "status" AS ENUM('NEW', 'COMPLETED', 'CANCELLED');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "hackathon_judges" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"hackathon_id" integer NOT NULL,
@@ -21,6 +27,9 @@ CREATE TABLE IF NOT EXISTS "hackathons" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"description" text NOT NULL,
+	"status" "status" NOT NULL,
+	"start_date" timestamp NOT NULL,
+	"end_date" timestamp NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp DEFAULT now() NOT NULL
 );
