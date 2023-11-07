@@ -1,5 +1,5 @@
-<script>
-	import { createUser } from '$lib/users.js';
+<script lang="ts">
+	import { createUser } from '$lib/users.ts';
 
 	export let data;
 	console.log(data.users);
