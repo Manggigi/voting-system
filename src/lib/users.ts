@@ -1,6 +1,7 @@
 import type { NewUser } from '$apptypes';
+import { eq } from 'drizzle-orm';
 import { db } from './drizzle';
-import { users } from './drizzle/schema';
+import { hackathonJudges, hackathons, users } from './drizzle/schema';
 
 // get list of all hackathons
 // get hackathon info by id (getHackathonById(hackathons.id))
@@ -39,5 +40,31 @@ export const getUsers = async () => {
 	return output;
 };
 
-// TODO: edit user data
+export const getUserById = async (idParameter: number) => {
+	const output = await db.select({
+		id: users.id,
+		name: users.id,
+		username: users.username,
+		created_at: users.created_at
+	})
+	.from(users)
+	.where(eq(users.id, idParameter));
+
+	return output; // Might be a good idea to go with output[0] in case we screw up somewhere down the line.
+}
+
+export const getJudges = async () => {
+	const output = await db.select({
+		id: users.id,
+		name: users.name,
+		username: users.username,
+		avatar: users.avatar
+	})
+	.from(hackathonJudges)
+	.innerJoin(hackathons, eq(hackathons.id, hackathonJudges.hackathon_id))
+	.innerJoin(users, eq(users.id, hackathonJudges.user_id));
+
+	return output;
+};
+
 // TODO: delete user
