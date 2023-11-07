@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createUser } from '$lib/users.ts';
+	import { createUser } from '$lib/users.js';
 
 	export let data;
 	console.log(data.users);
