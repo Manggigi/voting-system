@@ -2,4 +2,4 @@
 	export let data;
 </script>
 
-<h1>vote</h1>
+<h1 class="h1">vote</h1>
