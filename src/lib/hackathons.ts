@@ -34,8 +34,7 @@ export const getHackathonById = async (idParameter: number) => { // Returns null
 	.from(hackathons)
 	.where(eq(hackathons.id, idParameter));
 
-	if (output.length == 0) return null; // Means no user is available.
-	else return output;
+	return output;
 }
 
 export const getFinalTeamScore = (hackathonId: string) => {
