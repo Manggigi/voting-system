@@ -1,16 +1,9 @@
-import { db } from '$lib/drizzle';
-import { users as usersTable } from './../lib/drizzle/schema';
+import { getHackathons } from '$lib/hackathons';
 
 export async function load() {
-	let users;
+	const hackathons = await getHackathons();
 
-	try {
-		users = await db.select().from(usersTable);
-	} catch (error) {
-		const e = error as Error;
-		console.log(e);
-	}
 	return {
-		users
+		hackathons
 	};
 }
