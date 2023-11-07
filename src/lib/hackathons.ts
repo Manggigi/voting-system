@@ -1,9 +1,9 @@
-import type { NewHackathon, NewHackathonTeams } from '$apptypes';
+import { eq } from 'drizzle-orm';
 import { db } from './drizzle';
-import { eq } from "drizzle-orm"
-import { hackathonParticipants, hackathonTeams, hackathons } from './drizzle/schema';
+import { hackathonTeams, hackathons } from './drizzle/schema';
+import type { NewHackathon, NewHackathonTeams } from '$apptypes';
 
-// TODO: 
+// TODO:
 // Get hackathon details by id
 // Get table of all existing hackathons and their details (low prio)
 
@@ -12,42 +12,25 @@ export const createHackathon = async (hackathonData: NewHackathon) => {
 };
 
 export const getHackathons = async () => {
-	const output = await db.select({
-		id: hackathons.id,
-		name: hackathons.name,
-		description: hackathons.description,
-		created_at: hackathons.created_at,
-		updated_at: hackathons.updated_at
-	}).from(hackathons);
-
-	return output;
+	const hackathonsData = await db.select().from(hackathons);
+	return hackathonsData;
 };
 
-export const getHackathonById = async (idParameter: number) => { // Returns null if no hackathon with selected id exists.
-	const output = await db.select({
-		id: hackathons.id,
-		name: hackathons.name,
-		description: hackathons.description,
-		created_at: hackathons.created_at,
-		updated_at: hackathons.updated_at
-	})
-	.from(hackathons)
-	.where(eq(hackathons.id, idParameter));
-
-	return output;
-}
-
-// export const createHackathon = async (hackathonData: NewHackathon) => {
-// 	await db.insert(hackathons).values(hackathonData).execute();
-// };
+export const getHackathonById = async (hackathonId: string) => {
+	const hackathonData = await db
+		.select()
+		.from(hackathons)
+		.where(eq(hackathons.id, parseInt(hackathonId)));
+	return hackathonData[0];
+};
 
 export const createTeam = async (teamData: NewHackathonTeams) => {
-	const output = await db.insert(hackathonTeams)
-	.values(teamData).execute();
-}
+	await db.insert(hackathonTeams).values(teamData).execute();
+};
 
 export const getFinalTeamScore = (hackathonId: string) => {
 	console.log('🚀 ~ file: hackathons.ts:11 ~ getFinalTeamScore ~ hackathonId:', hackathonId);
+	// TODO: calculate scores
 	// get user_votes
 	// const userVotesData = db
 	// 	.select()

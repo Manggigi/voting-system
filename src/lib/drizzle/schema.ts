@@ -1,4 +1,12 @@
-import { integer, pgTable, serial, text, timestamp, uniqueIndex } from 'drizzle-orm/pg-core';
+import {
+	integer,
+	pgEnum,
+	pgTable,
+	serial,
+	text,
+	timestamp,
+	uniqueIndex
+} from 'drizzle-orm/pg-core';
 
 // Define tables
 export const users = pgTable(
@@ -17,12 +25,17 @@ export const users = pgTable(
 	}
 );
 
+export const statusEnum = pgEnum('status', ['NEW', 'COMPLETED', 'CANCELLED']);
+
 export const hackathons = pgTable(
 	'hackathons',
 	{
 		id: serial('id').primaryKey(),
 		name: text('name').notNull(),
 		description: text('description').notNull(),
+		status: statusEnum('status').notNull(),
+		start_date: timestamp('start_date').notNull(),
+		end_date: timestamp('end_date').notNull(),
 		created_at: timestamp('created_at').defaultNow().notNull(),
 		updated_at: timestamp('updated_at').defaultNow().notNull()
 	},

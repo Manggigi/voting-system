@@ -1,22 +1,30 @@
 <script lang="ts">
-	import { createUser } from '$lib/users.js';
+	import HackathonList from '$lib/components/HackathonList.svelte';
+	import { userStore } from '$lib/stores.js';
 
 	export let data;
-	console.log(data.users);
-	console.log(data.teamScores);
-
-	// guide on how to use functions from other files
-	const handleSubmit = async () => {
-		await createUser({
-			name: 'John Doe',
-			username: 'haha',
-			avatar: 'https://i.pravatar.cc/300'
-		});
-	};
+	const user = $userStore;
+	console.log('🚀 ~ file: +page.svelte:7 ~ user:', user);
 </script>
 
-<h1>
-	<!-- {JSON.stringify(data.users, null, 2)} -->
-
-	{JSON.stringify(data.teamScores, null, 2)}
-</h1>
+<div class="space-y-4">
+	<div>
+		<h3 class="h3">Current Hackathons Winners</h3>
+		<!-- maybe wildcard of avatar of "?" -->
+		<p class="">
+			Lorem ipsum dolor sit, amet consectetur adipisicing elit. Provident odio debitis, illo id vel
+			ratione quia, minima eligendi tempora eveniet est a rem natus fugiat sapiente alias deleniti
+			dolor quos.
+		</p>
+	</div>
+	<hr />
+	<div>
+		<h3 class="h3">Upcoming Hackathons</h3>
+		<HackathonList hackathons={data.hackathons} />
+	</div>
+	<hr />
+	<h4 class="h4 mt-4">
+		Current User
+		<div>{JSON.stringify($userStore, null, 2)}</div>
+	</h4>
+</div>

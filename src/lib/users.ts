@@ -8,45 +8,25 @@ export const createUser = async (userData: NewUser) => {
 };
 
 export const getUsers = async () => {
-	const output = await db.select({
-		id: users.id,
-		name: users.name,
-		username: users.username,
-		avatar: users.avatar,
-		created_at: users.created_at
-	}).from(users);
-
-	return output;
+	const usersData = await db.select().from(users);
+	return usersData;
 };
 
 export const getUserById = async (idParameter: number) => {
-	const output = await db.select({
-		id: users.id,
-		name: users.id,
-		username: users.username,
-		created_at: users.created_at
-	})
-	.from(users)
-	.where(eq(users.id, idParameter));
-
-	return output; // Might be a good idea to go with output[0] in case we screw up somewhere down the line.
-}
+	const usersData = await db.select().from(users).where(eq(users.id, idParameter));
+	return usersData;
+};
 
 export const getJudges = async () => {
-	const output = await db.select({
-		id: users.id,
-		name: users.name,
-		username: users.username,
-		avatar: users.avatar
-	})
-	.from(hackathonJudges)
-	.innerJoin(hackathons, eq(hackathons.id, hackathonJudges.hackathon_id))
-	.innerJoin(users, eq(users.id, hackathonJudges.user_id));
+	const output = await db
+		.select()
+		.from(hackathonJudges)
+		.innerJoin(hackathons, eq(hackathons.id, hackathonJudges.hackathon_id))
+		.innerJoin(users, eq(users.id, hackathonJudges.user_id));
 
 	return output;
 };
 
 export const deleteUser = async (idParameter: number) => {
-	const output = await db.delete(users)
-	.where(eq(users.id, idParameter));
+	await db.delete(users).where(eq(users.id, idParameter));
 };
