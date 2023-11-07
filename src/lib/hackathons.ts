@@ -34,7 +34,7 @@ export const createUserVote = async (userVoteData: NewUserVotes) => {
 
 export const createJudgeVote = async (judgeVoteData: NewJudgeVotes) => {
 	await db.insert(judgeVotes).values(judgeVoteData).execute();
-}
+};
 
 export const getFinalTeamScore = (hackathonId: string) => {
 	console.log('🚀 ~ file: hackathons.ts:11 ~ getFinalTeamScore ~ hackathonId:', hackathonId);
