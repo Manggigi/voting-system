@@ -7,6 +7,7 @@
 
 	onMount(() => {
 		localStorage.removeItem('user');
+		document.cookie = 'user=; path=/;';
 		userStore.set(null);
 		goto('/');
 	});
