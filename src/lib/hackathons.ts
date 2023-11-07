@@ -1,10 +1,42 @@
 import type { NewHackathon } from '$apptypes';
 import { db } from './drizzle';
+import { eq } from "drizzle-orm"
 import { hackathons } from './drizzle/schema';
+
+// TODO: 
+// Get hackathon details by id
+// Get table of all existing hackathons and their details (low prio)
 
 export const createHackathon = async (hackathonData: NewHackathon) => {
 	await db.insert(hackathons).values(hackathonData).execute();
 };
+
+export const getHackathons = async () => {
+	const output = await db.select({
+		id: hackathons.id,
+		name: hackathons.name,
+		description: hackathons.description,
+		created_at: hackathons.created_at,
+		updated_at: hackathons.updated_at
+	}).from(hackathons);
+
+	return output;
+};
+
+export const getHackathonById = async (idParameter: number) => { // Returns null if no hackathon with selected id exists.
+	const output = await db.select({
+		id: hackathons.id,
+		name: hackathons.name,
+		description: hackathons.description,
+		created_at: hackathons.created_at,
+		updated_at: hackathons.updated_at
+	})
+	.from(hackathons)
+	.where(eq(hackathons.id, idParameter));
+
+	if (output.length == 0) return null; // Means no user is available.
+	else return output;
+}
 
 export const getFinalTeamScore = (hackathonId: string) => {
 	console.log('🚀 ~ file: hackathons.ts:11 ~ getFinalTeamScore ~ hackathonId:', hackathonId);
