@@ -1,7 +1,7 @@
-import type { NewHackathon } from '$apptypes';
+import type { NewHackathon, NewHackathonTeams } from '$apptypes';
 import { db } from './drizzle';
 import { eq } from "drizzle-orm"
-import { hackathons } from './drizzle/schema';
+import { hackathonParticipants, hackathonTeams, hackathons } from './drizzle/schema';
 
 // TODO: 
 // Get hackathon details by id
@@ -35,6 +35,15 @@ export const getHackathonById = async (idParameter: number) => { // Returns null
 	.where(eq(hackathons.id, idParameter));
 
 	return output;
+}
+
+// export const createHackathon = async (hackathonData: NewHackathon) => {
+// 	await db.insert(hackathons).values(hackathonData).execute();
+// };
+
+export const createTeam = async (teamData: NewHackathonTeams) => {
+	const output = await db.insert(hackathonTeams)
+	.values(teamData).execute();
 }
 
 export const getFinalTeamScore = (hackathonId: string) => {
