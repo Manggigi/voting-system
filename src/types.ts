@@ -1,25 +1,25 @@
 import type {
-	HackathonJudgesTable,
-	HackathonParticipantsTable,
-	HackathonTeamsTable,
-	HackathonsTable,
-	JudgeVotesTable,
-	UserVotesTable,
-	UsersTable
-} from '$lib/drizzle';
+	hackathonJudges,
+	hackathonParticipants,
+	hackathonTeams,
+	hackathons,
+	judgeVotes,
+	userVotes,
+	users
+} from '$lib/drizzle/schema';
 import type { InferInsertModel, InferSelectModel } from 'drizzle-orm';
 
-export type User = InferSelectModel<typeof UsersTable>;
-export type NewUser = InferInsertModel<typeof UsersTable>;
-export type Hackathon = InferSelectModel<typeof HackathonsTable>;
-export type NewHackathon = InferInsertModel<typeof HackathonsTable>;
-export type HackathonTeams = InferSelectModel<typeof HackathonTeamsTable>;
-export type NewHackathonTeams = InferInsertModel<typeof HackathonTeamsTable>;
-export type HackathonParticipants = InferSelectModel<typeof HackathonParticipantsTable>;
-export type NewHackathonParticipants = InferInsertModel<typeof HackathonParticipantsTable>;
-export type HackathonJudges = InferSelectModel<typeof HackathonJudgesTable>;
-export type NewHackathonJudges = InferInsertModel<typeof HackathonJudgesTable>;
-export type UserVotes = InferSelectModel<typeof UserVotesTable>;
-export type NewUserVotes = InferInsertModel<typeof UserVotesTable>;
-export type JudgeVotes = InferSelectModel<typeof JudgeVotesTable>;
-export type NewJudgeVotes = InferInsertModel<typeof JudgeVotesTable>;
+export type User = InferSelectModel<typeof users>;
+export type NewUser = InferInsertModel<typeof users>;
+export type Hackathon = InferSelectModel<typeof hackathons>;
+export type NewHackathon = InferInsertModel<typeof hackathons>;
+export type HackathonTeams = InferSelectModel<typeof hackathonTeams>;
+export type NewHackathonTeams = InferInsertModel<typeof hackathonTeams>;
+export type HackathonParticipants = InferSelectModel<typeof hackathonParticipants>;
+export type NewHackathonParticipants = InferInsertModel<typeof hackathonParticipants>;
+export type HackathonJudges = InferSelectModel<typeof hackathonJudges>;
+export type NewHackathonJudges = InferInsertModel<typeof hackathonJudges>;
+export type UserVotes = InferSelectModel<typeof userVotes>;
+export type NewUserVotes = InferInsertModel<typeof userVotes>;
+export type JudgeVotes = InferSelectModel<typeof judgeVotes>;
+export type NewJudgeVotes = InferInsertModel<typeof judgeVotes>;

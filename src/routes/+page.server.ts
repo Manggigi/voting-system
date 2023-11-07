@@ -1,26 +1,16 @@
-import { UsersTable, db } from '$lib/drizzle';
-import { seed } from '$lib/seed';
+import { db } from '$lib/drizzle';
+import { users as usersTable } from './../lib/drizzle/schema';
 
 export async function load() {
 	let users;
-	let startTime = Date.now();
+
 	try {
-		users = await db.select().from(UsersTable);
+		users = await db.select().from(usersTable);
 	} catch (error) {
 		const e = error as Error;
-		if (e.message === `relation "users" does not exist`) {
-			console.log('Table does not exist, creating and seeding it with dummy data now...');
-			// Table is not created yet
-			await seed();
-			startTime = Date.now();
-			users = await db.select().from(UsersTable);
-		} else {
-			throw e;
-		}
+		console.log(e);
 	}
-	const duration = Date.now() - startTime;
 	return {
-		duration,
 		users
 	};
 }

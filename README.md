@@ -1,18 +1,21 @@
-<!-- create a readme on how to setup environment on local -->
-
 ## Setup
 
-##### create .vercel in root directory and add project.json file inside it
-
-###### paste the following code in project.json file
+##### to install dependencies
 
 ```bash
-{ "projectId": "prj_I3TInINVzEzuAHG9GtfJnCEnYbAv", "orgId": "NNabx0uGhJDD5SQcU3WWSoZz" }
+sudo npm install
 ```
 
-##### install vercel cli and run vercel dev
+##### rename .env.example to .env and paste database url from [#10 ENV variables for Drizzle ORM](https://github.com/Manggigi/voting-system/issues/10)
+
+##### to run server
 
 ```bash
-pnpm i vercel
-vercel dev
+sudo npm run dev
+```
+
+##### to see database
+
+```bash
+sudo npm run db:studio
 ```

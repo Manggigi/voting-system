@@ -1,7 +1,6 @@
-import { sql } from '@vercel/postgres';
-import { db } from './drizzle';
-import { UsersTable } from './drizzle';
+import { db } from '$lib/drizzle';
 import type { NewUser, User } from '$apptypes';
+import { users } from './schema';
 
 const newUsers: NewUser[] = [
 	{
@@ -28,22 +27,11 @@ const newUsers: NewUser[] = [
 
 export async function seed() {
 	// Create table with raw SQL
-	const createTable = await sql.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id SERIAL PRIMARY KEY,
-        name VARCHAR(255) NOT NULL,
-        username VARCHAR(255) UNIQUE NOT NULL,
-        avatar VARCHAR(255),
-        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-      );
-  `);
-	console.log(`Created "users" table`);
 
-	const insertedUsers: User[] = await db.insert(UsersTable).values(newUsers).returning();
+	const insertedUsers: User[] = await db.insert(users).values(newUsers).returning();
 	console.log(`Seeded ${insertedUsers.length} users`);
 
 	return {
-		createTable,
 		insertedUsers
 	};
 }
