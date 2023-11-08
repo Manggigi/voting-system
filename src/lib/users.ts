@@ -12,8 +12,8 @@ export const getUsers = async () => {
 	return usersData;
 };
 
-export const getUserById = async (idParameter: number) => {
-	const usersData = await db.select().from(users).where(eq(users.id, idParameter));
+export const getUserById = async (userId: number) => {
+	const usersData = await db.select().from(users).where(eq(users.id, userId));
 	return usersData;
 };
 
