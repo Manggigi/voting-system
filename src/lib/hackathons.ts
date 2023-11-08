@@ -1,9 +1,10 @@
-import { eq } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 import { db } from './drizzle';
-import { hackathonTeams, hackathons, judgeVotes, userVotes } from './drizzle/schema';
+import { hackathonParticipants, hackathonTeams, hackathons, judgeVotes, userVotes } from './drizzle/schema';
 import type { NewHackathon, NewHackathonTeams, NewJudgeVotes, NewUserVotes } from '$apptypes';
 
 // TODO:
+// change id type string to numbere
 // Get hackathon details by id
 // Get table of all existing hackathons and their details (low prio)
 
@@ -30,6 +31,17 @@ export const createTeam = async (teamData: NewHackathonTeams) => {
 
 export const createUserVote = async (userVoteData: NewUserVotes) => {
 	await db.insert(userVotes).values(userVoteData).execute();
+};
+
+export const getUserVotesByHackathonId = async (hackathonId: string, hackathonTeam: string) => {
+	const userVoteData = await db
+		.select()
+		.from(userVotes)
+		.where(and(
+			eq(userVotes.hackathon_id, parseInt(hackathonId)),
+			eq(userVotes.hackathon_team_id, parseInt(hackathonTeam))
+		));
+	return userVoteData;
 };
 
 export const createJudgeVote = async (judgeVoteData: NewJudgeVotes) => {
