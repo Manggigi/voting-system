@@ -48,6 +48,17 @@ export const createJudgeVote = async (judgeVoteData: NewJudgeVotes) => {
 	await db.insert(judgeVotes).values(judgeVoteData).execute();
 };
 
+export const getJudgeVotesByHackathonId = async (hackathonId: number, hackathonTeam: number) => {
+	const judgeVotesData = await db
+		.select()
+		.from(judgeVotes)
+		.where(and(
+			eq(judgeVotes.hackathon_id, hackathonId),
+			eq(judgeVotes.hackathon_team_id, hackathonTeam)
+		));
+	return judgeVotesData;
+}
+
 export const getFinalTeamScore = (hackathonId: string) => {
 	console.log('🚀 ~ file: hackathons.ts:11 ~ getFinalTeamScore ~ hackathonId:', hackathonId);
 	// TODO: calculate scores
