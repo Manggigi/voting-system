@@ -11,7 +11,6 @@
 	const handleLogin = () => {
 		if ($userStore) return;
 
-		currentUser = JSON.parse(localStorage.getItem('user')!);
 		// set user to localstorage
 		const user: User = {
 			id: 55,
@@ -25,16 +24,18 @@
 		document.cookie = `user=${JSON.stringify(user)}; path=/;`;
 		userStore.set(user);
 
-		setTimeout(() => {
-			goto(routes.home);
-		}, 300);
+		goto('/api/auth');
+
+		// setTimeout(() => {
+		// 	goto(routes.home);
+		// }, 300);
 	};
 </script>
 
 <div class="grid place-content-center h-96">
-	{#if $userStore}
-		<h1 class="h1">Successful Login</h1>
-	{:else}
+	{#if !$userStore}
+		<!-- <h1 class="h1">Successful Login</h1> -->
+		<!-- {:else} -->
 		<button
 			on:click={handleLogin}
 			class="rounded-md px-6 py-4 text-sm font-medium text-gray-800 bg-primary-500 hover:bg-gray-700 hover:text-white"

@@ -1,10 +1,14 @@
 <script lang="ts">
 	import HackathonList from '$lib/components/HackathonList.svelte';
 	import { userStore } from '$lib/stores.js';
+	import { onMount } from 'svelte';
 
 	export let data;
-	const user = $userStore;
-	console.log('🚀 ~ file: +page.svelte:7 ~ user:', user);
+
+	onMount(() => {
+		const currentUser = JSON.parse(localStorage.getItem('user')!);
+		userStore.set(currentUser);
+	});
 </script>
 
 <div class="space-y-4">
