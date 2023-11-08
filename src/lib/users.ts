@@ -1,4 +1,4 @@
-import type { NewUser } from '$apptypes';
+import type { NewHackathonJudges, NewUser } from '$apptypes';
 import { eq } from 'drizzle-orm';
 import { db } from './drizzle';
 import { hackathonJudges, hackathons, users } from './drizzle/schema';
@@ -16,6 +16,10 @@ export const getUserById = async (userId: number) => {
 	const usersData = await db.select().from(users).where(eq(users.id, userId));
 	return usersData;
 };
+
+export const createJudge = async (judgeData: NewHackathonJudges) => {
+	db.insert(hackathonJudges).values(judgeData).execute();
+}
 
 export const getJudges = async () => {
 	const output = await db
