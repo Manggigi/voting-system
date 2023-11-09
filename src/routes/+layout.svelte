@@ -7,10 +7,11 @@
 	import { computePosition, autoUpdate, flip, shift, offset, arrow } from '@floating-ui/dom';
 	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
+	export let data;
 </script>
 
 <div class="text-slate-800">
-	<Navbar />
+	<Navbar user={data.user} />
 	<main class="min-h-screen pt-20 bg-white">
 		<Container>
 			<slot />

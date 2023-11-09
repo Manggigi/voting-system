@@ -1,6 +1,7 @@
 export const routes = {
 	home: '/',
 	login: '/login',
+	register: '/register',
 	logout: '/logout',
 	hackathon: {
 		base: '/hackathons',

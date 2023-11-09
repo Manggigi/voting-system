@@ -1,10 +1,10 @@
-import type { Hackathon, User } from '$apptypes';
 import { db } from '$lib/drizzle';
 import { hackathonTeams, hackathons, users } from './schema';
 
 import newHackathonTeams from '$lib/data/newHackathonTeams.json';
 import newHackathons from '$lib/data/newHackathons.json';
 import newUsers from '$lib/data/newUsers.json';
+import type { Hackathon, User } from '@types';
 
 export async function seed() {
 	// Create table with raw SQL

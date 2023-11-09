@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { Hackathon } from '$apptypes';
 	import { routes } from '$lib/routes';
+	import type { Hackathon } from '@types';
 
 	export let hackathons: Hackathon[] = [];
 </script>

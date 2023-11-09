@@ -1,10 +1,7 @@
 <script lang="ts">
 	import HackathonList from '$lib/components/HackathonList.svelte';
-	import { userStore } from '$lib/stores.js';
 
 	export let data;
-	const user = $userStore;
-	console.log('🚀 ~ file: +page.svelte:7 ~ user:', user);
 </script>
 
 <div class="space-y-4">
@@ -25,6 +22,6 @@
 	<hr />
 	<h4 class="h4 mt-4">
 		Current User
-		<div>{JSON.stringify($userStore, null, 2)}</div>
+		<!-- <div>{JSON.stringify(, null, 2)}</div> -->
 	</h4>
 </div>

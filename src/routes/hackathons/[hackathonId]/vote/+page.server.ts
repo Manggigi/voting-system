@@ -1,4 +1,4 @@
-import type { NewUserVote, User } from '$apptypes';
+import type { NewUserVote, User } from '@types';
 import { createUserVote, getHackathonTeams, getUserVoteById } from '$lib/hackathons';
 import { redirect } from '@sveltejs/kit';
 

@@ -1,8 +1,11 @@
-<script>
+<script lang="ts">
 	import { routes } from '$lib/routes';
 	import { userStore } from '$lib/stores';
+	import type { User } from '@types';
 	import LoginButton from './LoginButton.svelte';
 
+	export let user: User | undefined = undefined;
+	$: isLoggedIn = !!user;
 	let menuOpen = false;
 </script>
 
@@ -68,7 +71,7 @@
 					</button>
 
 					<!-- Profile dropdown -->
-					{#if $userStore}
+					{#if isLoggedIn}
 						<div class="relative ml-3">
 							<div>
 								<button
@@ -123,7 +126,10 @@
 									id="user-menu-item-1">Settings</a
 								> -->
 									<a
-										on:click={() => (menuOpen = !menuOpen)}
+										on:click={() => {
+											menuOpen = !menuOpen;
+											user = undefined;
+										}}
 										href={routes.logout}
 										class="block px-4 py-2 text-sm text-gray-700"
 										role="menuitem"
@@ -135,13 +141,20 @@
 						</div>
 					{:else}
 						<LoginButton />
+						<a
+							href={routes.register}
+							class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 bg-primary-700 hover:bg-gray-700 hover:text-white"
+							role="menuitem"
+							tabindex="-1"
+							id="user-menu-item-2">Register</a
+						>
 					{/if}
 				</div>
 			</div>
 
 			<div class="-mr-2 flex sm:hidden">
 				<!-- Mobile menu button -->
-				{#if $userStore}
+				{#if isLoggedIn}
 					<button
 						type="button"
 						class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -188,6 +201,13 @@
 					</button>
 				{:else}
 					<LoginButton />
+					<a
+						href={routes.register}
+						class="rounded-md ml-2 px-3 py-2 text-sm font-medium text-gray-300 bg-primary-700 hover:bg-gray-700 hover:text-white"
+						role="menuitem"
+						tabindex="-1"
+						id="user-menu-item-2">Register</a
+					>
 				{/if}
 			</div>
 		</div>
@@ -269,7 +289,10 @@
 						>Settings</a
 					> -->
 					<a
-						on:click={() => (menuOpen = !menuOpen)}
+						on:click={() => {
+							menuOpen = !menuOpen;
+							user = undefined;
+						}}
 						href={routes.logout}
 						class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
 						>Sign out</a
