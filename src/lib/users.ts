@@ -17,6 +17,11 @@ export const getUserById = async (idParameter: string) => {
 	return usersData[0];
 };
 
+export const getUserByUsername = async (username: string) => {
+	const usersData = await db.select().from(users).where(eq(users.id, username));
+	return usersData[0];
+};
+
 export const getJudges = async () => {
 	const output = await db
 		.select()
