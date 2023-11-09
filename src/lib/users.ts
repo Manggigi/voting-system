@@ -21,12 +21,13 @@ export const createJudge = async (judgeData: NewHackathonJudges) => {
 	db.insert(hackathonJudges).values(judgeData).execute();
 }
 
-export const getJudges = async () => {
+export const getJudges = async (hackathonId: number) => {
 	const output = await db
 		.select()
 		.from(hackathonJudges)
 		.innerJoin(hackathons, eq(hackathons.id, hackathonJudges.hackathon_id))
-		.innerJoin(users, eq(users.id, hackathonJudges.user_id));
+		.innerJoin(users, eq(users.id, hackathonJudges.user_id))
+		.where(eq(hackathonJudges.id, hackathonId));
 
 	return output;
 };
