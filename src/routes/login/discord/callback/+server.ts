@@ -1,8 +1,13 @@
+import { redirect } from '@sveltejs/kit';
 import { auth, discordAuth } from '@server/lucia';
 import type { RequestHandler } from './$types';
 import { OAuthRequestError } from '@lucia-auth/oauth';
 
 export const GET: RequestHandler = async ({ cookies, url, locals }) => {
+	// error=access_denied
+	const error = url.searchParams.get('error');
+	if (error) throw redirect(307, '/');
+
 	const storedState = cookies.get('discord_oauth_state');
 	const state = url.searchParams.get('state');
 	const code = url.searchParams.get('code');
