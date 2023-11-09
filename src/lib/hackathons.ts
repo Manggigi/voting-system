@@ -30,7 +30,7 @@ export const createTeam = async (teamData: NewHackathonTeam) => {
 	await db.insert(hackathonTeams).values(teamData).execute();
 };
 
-export const getUserVoteById = async (userId: string) => {
+export const getUserVoteByUserId = async (userId: string) => {
 	const userVoteData = await db.select().from(userVotes).where(eq(userVotes.user_id, userId));
 	return userVoteData[0];
 };
