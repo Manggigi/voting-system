@@ -36,5 +36,4 @@ export const discordAuth = discord(auth, {
 	redirectUri: envPrivate.DISCORD_REDIRECT_URI
 });
 
-
 export type Auth = typeof auth;
