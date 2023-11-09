@@ -2,6 +2,8 @@ import { and, eq } from 'drizzle-orm';
 import { db } from './drizzle';
 import { hackathonParticipants, hackathonTeams, hackathons, judgeVotes, userVotes } from './drizzle/schema';
 import type { NewHackathon, NewHackathonTeams, NewJudgeVotes, NewUserVotes } from '$apptypes';
+import { json } from '@sveltejs/kit';
+import type { getJudges } from './users';
 
 // TODO:
 // change id type string to numbere
@@ -29,17 +31,26 @@ export const createTeam = async (teamData: NewHackathonTeams) => {
 	await db.insert(hackathonTeams).values(teamData).execute();
 };
 
+export const getTeamsByHackathonId = async (hackathonId: number) => {
+	const teamData = await db
+		.select()
+		.from(hackathonTeams)
+		.fullJoin(hackathons, eq(hackathons.id, hackathonTeams.hackathon_id))
+		.where(eq(hackathonTeams.hackathon_id, hackathonId))
+	return teamData;
+};
+
 export const createUserVote = async (userVoteData: NewUserVotes) => {
 	await db.insert(userVotes).values(userVoteData).execute();
 };
 
-export const getUserVotesByHackathonId = async (hackathonId: string, hackathonTeam: string) => {
+export const getUserVotesByHackathonId = async (hackathonId: number, hackathonTeam: number) => {
 	const userVoteData = await db
 		.select()
 		.from(userVotes)
 		.where(and(
-			eq(userVotes.hackathon_id, parseInt(hackathonId)),
-			eq(userVotes.hackathon_team_id, parseInt(hackathonTeam))
+			eq(userVotes.hackathon_id, hackathonId),
+			eq(userVotes.hackathon_team_id, hackathonTeam)
 		));
 	return userVoteData;
 };
@@ -57,44 +68,4 @@ export const getJudgeVotesByHackathonId = async (hackathonId: number, hackathonT
 			eq(judgeVotes.hackathon_team_id, hackathonTeam)
 		));
 	return judgeVotesData;
-}
-
-export const getFinalTeamScore = (hackathonId: string) => {
-	console.log('🚀 ~ file: hackathons.ts:11 ~ getFinalTeamScore ~ hackathonId:', hackathonId);
-	// TODO: calculate scores
-	// get user_votes
-	// const userVotesData = db
-	// 	.select()
-	// 	.from(userVotes)
-	// 	.where(eq(userVotes.hackathon_id, hackathonId))
-	// 	.execute();
-	// // get judges_votes
-	// const judgesVotesData = db
-	// 	.select()
-	// 	.from(judgeVotes)
-	// 	.where(eq(userVotes.hackathon_id, hackathonId))
-	// 	.execute();
-
-	// calculate final score
-
-	return {
-		team1Id: {
-			hackathonTeamName: 'team1',
-			finalScore: 80,
-			communityScore: 10,
-			judgesScore: 70
-		},
-		team2Id: {
-			hackathonTeamName: 'team2',
-			finalScore: 80,
-			communityScore: 10,
-			judgesScore: 70
-		},
-		team3Id: {
-			hackathonTeamName: 'team3',
-			finalScore: 80,
-			communityScore: 10,
-			judgesScore: 70
-		}
-	};
 };
