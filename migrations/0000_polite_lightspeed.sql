@@ -7,14 +7,14 @@ END $$;
 CREATE TABLE IF NOT EXISTS "hackathon_judges" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"hackathon_id" integer NOT NULL,
-	"user_id" integer NOT NULL
+	"user_id" varchar(15) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "hackathon_participants" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"hackathon_team_id" integer NOT NULL,
 	"hackathon_id" integer NOT NULL,
-	"user_id" integer NOT NULL
+	"user_id" varchar(15) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "hackathon_teams" (
@@ -41,20 +41,33 @@ CREATE TABLE IF NOT EXISTS "judge_votes" (
 	"hackathon_judge_id" integer NOT NULL,
 	"hackathon_id" integer NOT NULL,
 	"hackathon_team_id" integer NOT NULL,
-	"user_id" integer NOT NULL,
+	"user_id" varchar(15) NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "user_key" (
+	"id" varchar(255) PRIMARY KEY NOT NULL,
+	"user_id" varchar(15) NOT NULL,
+	"hashed_password" text
+);
+--> statement-breakpoint
+CREATE TABLE IF NOT EXISTS "user_session" (
+	"id" varchar(128) PRIMARY KEY NOT NULL,
+	"user_id" varchar(15) NOT NULL,
+	"active_expires" bigint NOT NULL,
+	"idle_expires" bigint NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user_votes" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"hackathon_id" integer NOT NULL,
 	"hackathon_team_id" integer NOT NULL,
-	"user_id" integer NOT NULL,
+	"user_id" varchar(15) NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" varchar(15) PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"username" text NOT NULL,
 	"avatar" text NOT NULL,
@@ -119,6 +132,18 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "judge_votes" ADD CONSTRAINT "judge_votes_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user_key" ADD CONSTRAINT "user_key_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "user_session" ADD CONSTRAINT "user_session_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
