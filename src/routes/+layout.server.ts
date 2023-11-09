@@ -3,16 +3,20 @@ import { getHackathons } from '$lib/hackathons';
 import type { LayoutServerLoad } from './$types';
 
 export const load = (async ({ locals }) => {
-	const hackathons = await getHackathons();
-	// await seed();
-	if (locals.user) {
+	try {
+		const hackathons = await getHackathons();
+		// await seed();
+		if (locals.user) {
+			return {
+				user: locals.user,
+				hackathons
+			};
+		}
+
 		return {
-			user: locals.user,
 			hackathons
 		};
+	} catch (e) {
+		console.log(e);
 	}
-
-	return {
-		hackathons
-	};
 }) satisfies LayoutServerLoad;

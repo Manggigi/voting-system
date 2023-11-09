@@ -21,15 +21,6 @@ export const auth = lucia({
 	}
 });
 
-// {
-// 	client_id: envPrivate.DISCORD_CLIENT_ID,
-// 	client_secret: envPrivate.DISCORD_CLIENT_SECRET,
-// 	grant_type: 'authorization_code',
-// 	redirect_uri: envPrivate.DISCORD_REDIRECT_URI,
-// 	code: returnCode!,
-// 	scope: 'identify email guilds'
-// }
-
 export const discordAuth = discord(auth, {
 	clientId: envPrivate.DISCORD_CLIENT_ID,
 	clientSecret: envPrivate.DISCORD_CLIENT_SECRET,

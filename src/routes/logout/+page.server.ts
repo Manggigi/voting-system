@@ -6,7 +6,11 @@ export const load = async ({ locals }) => {
 	if (!session) throw error(401, 'Unauthorized');
 
 	locals.user = undefined;
-	await auth.invalidateSession(session.sessionId);
-	await locals.auth.setSession(null);
+	try {
+		await auth.invalidateSession(session.sessionId);
+		locals.auth.setSession(null);
+	} catch (e) {
+		console.log(e);
+	}
 	throw redirect(307, '/login');
 };
