@@ -49,55 +49,9 @@ export const getFinalTeamScore = async (hackathonId: number) => {
 		// I don't think garbage collection will work within this loop so this here frees up the whole array:
 		judgeVotesData = []; // Nvm I'll jsut turn this into another buffer variable
 	}
-
-	// const userVotesData = await getUserVotesByHackathonId(hackathonId, hackathonTeam);
-	// const judgeVotesData = await getJudgeVotesByHackathonId(hackathonId, hackathonTeam);
-
-	// let totalJudgeVotesData = 0; // Array.reduce() works too.
-	// for (let i = 0; i < judgeVotesData.length; i++) {
-	// 	totalJudgeVotesData += judgeVotesData[i].score;
-	// }
-
-
-
+    
 	teamIdBuffer = 0;
 	return {
 		output
 	}
-	// TODO: calculate scores
-	// get user_votes
-	// const userVotesData = db
-	// 	.select()
-	// 	.from(userVotes)
-	// 	.where(eq(userVotes.hackathon_id, hackathonId))
-	// 	.execute();
-	// // get judges_votes
-	// const judgesVotesData = db
-	// 	.select()
-	// 	.from(judgeVotes)
-	// 	.where(eq(userVotes.hackathon_id, hackathonId))
-	// 	.execute();
-
-	// calculate final score
-
-	// return {
-	// 	team1Id: {
-	// 		hackathonTeamName: 'team1',
-	// 		finalScore: 80,
-	// 		communityScore: 10,
-	// 		judgesScore: 70
-	// 	},
-	// 	team2Id: {
-	// 		hackathonTeamName: 'team2',
-	// 		finalScore: 80,
-	// 		communityScore: 10,
-	// 		judgesScore: 70
-	// 	},
-	// 	team3Id: {
-	// 		hackathonTeamName: 'team3',
-	// 		finalScore: 80,
-	// 		communityScore: 10,
-	// 		judgesScore: 70
-	// 	}
-	// };
 };
