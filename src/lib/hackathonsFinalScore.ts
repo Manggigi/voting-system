@@ -38,7 +38,7 @@ export const getFinalTeamScore = async (hackathonId: number) => {
         let weightedJudgeVotes = ((judgeVotesData[i]) / (numberOfJudges * maxScorePerJudge)) * judgeWeight;
 
 		output[i] = {
-			id: teamIdBuffer,
+			teamName: teamData[i].hackathon_teams?.name,
 			communityVotes: userVotesDataBuffer.length,
 			judgeVotes: judgeVotesData[i],
             weightedCommunityVotes: weightedCommunityVotes,
