@@ -1,8 +1,11 @@
-<script>
+<script lang="ts">
 	import { routes } from '$lib/routes';
 	import { userStore } from '$lib/stores';
+	import type { User } from '@types';
 	import LoginButton from './LoginButton.svelte';
 
+	export let user: User | undefined = undefined;
+	$: isLoggedIn = !!user;
 	let menuOpen = false;
 </script>
 
@@ -25,21 +28,23 @@
 							href={routes.home}
 							class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Home</a
 						>
-						<a
-							href={routes.hackathon.base}
-							class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-							>Hackathons</a
-						>
-						<a
-							href={routes.teams.base}
-							class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-							>Teams</a
-						>
-						<a
-							href={routes.judges.base}
-							class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-							>Judges</a
-						>
+						{#if isLoggedIn}
+							<a
+								href={routes.hackathon.base}
+								class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+								>Hackathons</a
+							>
+							<a
+								href={routes.teams.base}
+								class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+								>Teams</a
+							>
+							<a
+								href={routes.judges.base}
+								class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+								>Judges</a
+							>
+						{/if}
 					</div>
 				</div>
 			</div>
@@ -68,7 +73,7 @@
 					</button>
 
 					<!-- Profile dropdown -->
-					{#if $userStore}
+					{#if isLoggedIn}
 						<div class="relative ml-3">
 							<div>
 								<button
@@ -83,7 +88,8 @@
 									<span class="sr-only">Open user menu</span>
 									<img
 										class="h-8 w-8 rounded-full"
-										src="https://giandenorte.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.e7bd1e3b.webp&w=256&q=75"
+										src={user?.avatar ||
+											'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png'}
 										alt=""
 									/>
 								</button>
@@ -123,7 +129,10 @@
 									id="user-menu-item-1">Settings</a
 								> -->
 									<a
-										on:click={() => (menuOpen = !menuOpen)}
+										on:click={() => {
+											menuOpen = !menuOpen;
+											user = undefined;
+										}}
 										href={routes.logout}
 										class="block px-4 py-2 text-sm text-gray-700"
 										role="menuitem"
@@ -141,7 +150,7 @@
 
 			<div class="-mr-2 flex sm:hidden">
 				<!-- Mobile menu button -->
-				{#if $userStore}
+				{#if isLoggedIn}
 					<button
 						type="button"
 						class="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
@@ -227,13 +236,14 @@
 					<div class="flex-shrink-0">
 						<img
 							class="h-10 w-10 rounded-full"
-							src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+							src={user?.avatar ||
+								'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png'}
 							alt=""
 						/>
 					</div>
 					<div class="ml-3">
-						<div class="text-base font-medium text-white">Gian Denorte</div>
-						<div class="text-sm font-medium text-gray-400">gian@example.com</div>
+						<div class="text-base font-medium text-white">{user?.name}</div>
+						<div class="text-sm font-medium text-gray-400">{user?.username}</div>
 					</div>
 					<button
 						type="button"
@@ -269,7 +279,10 @@
 						>Settings</a
 					> -->
 					<a
-						on:click={() => (menuOpen = !menuOpen)}
+						on:click={() => {
+							menuOpen = !menuOpen;
+							user = undefined;
+						}}
 						href={routes.logout}
 						class="block rounded-md px-3 py-2 text-base font-medium text-gray-400 hover:bg-gray-700 hover:text-white"
 						>Sign out</a

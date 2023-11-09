@@ -1,7 +1,13 @@
 import { and, eq } from 'drizzle-orm';
 import { db } from './drizzle';
-import { hackathonJudges, hackathonTeams, hackathons, judgeVotes, userVotes } from './drizzle/schema';
-import type { NewHackathon, NewHackathonTeam, NewJudgeVote, NewUserVote } from '$apptypes';
+import {
+	hackathonJudges,
+	hackathonTeams,
+	hackathons,
+	judgeVotes,
+	userVotes
+} from './drizzle/schema';
+import type { NewHackathon, NewHackathonTeam, NewJudgeVote, NewUserVote } from '@types';
 
 export const createHackathon = async (hackathonData: NewHackathon) => {
 	await db.insert(hackathons).values(hackathonData).execute();
@@ -24,11 +30,8 @@ export const createTeam = async (teamData: NewHackathonTeam) => {
 	await db.insert(hackathonTeams).values(teamData).execute();
 };
 
-export const getUserVoteById = async (userId: string) => {
-	const userVoteData = await db
-		.select()
-		.from(userVotes)
-		.where(eq(userVotes.user_id, parseInt(userId)));
+export const getUserVoteByUserId = async (userId: string) => {
+	const userVoteData = await db.select().from(userVotes).where(eq(userVotes.user_id, userId));
 	return userVoteData[0];
 };
 

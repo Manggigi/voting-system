@@ -1,19 +1,19 @@
-import type { Hackathon, User } from '$apptypes';
 import { db } from '$lib/drizzle';
-import { hackathonTeams, hackathons, users } from './schema';
+import { hackathonTeams, hackathons } from './schema';
 
 import newHackathonTeams from '$lib/data/newHackathonTeams.json';
 import newHackathons from '$lib/data/newHackathons.json';
-import newUsers from '$lib/data/newUsers.json';
+// import newUsers from '$lib/data/newUsers.json';
+import type { Hackathon } from '@types';
 
 export async function seed() {
 	// Create table with raw SQL
 
-	const usersData = await db.select().from(users);
-	if (usersData.length === 0) {
-		const insertedUsers: User[] = await db.insert(users).values(newUsers).returning();
-		console.log(`Seeded ${insertedUsers.length} users`);
-	}
+	// const usersData = await db.select().from(users);
+	// if (usersData.length === 0) {
+	// 	const insertedUsers: User[] = await db.insert(users).values([]).returning();
+	// 	console.log(`Seeded ${insertedUsers.length} users`);
+	// }
 
 	const hackathonsData = await db.select().from(hackathons);
 	if (hackathonsData.length === 0) {

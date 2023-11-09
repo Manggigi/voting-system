@@ -1,7 +1,7 @@
 {
 	"version": "5",
 	"dialect": "pg",
-	"id": "3b8a10cc-d330-41cc-a86b-165a7e9b90bf",
+	"id": "35a422f9-c4f5-4f7d-aa9d-17d3f86b6109",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
 		"hackathon_judges": {
@@ -22,7 +22,7 @@
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "integer",
+					"type": "varchar(15)",
 					"primaryKey": false,
 					"notNull": true
 				}
@@ -75,7 +75,7 @@
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "integer",
+					"type": "varchar(15)",
 					"primaryKey": false,
 					"notNull": true
 				}
@@ -259,7 +259,7 @@
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "integer",
+					"type": "varchar(15)",
 					"primaryKey": false,
 					"notNull": true
 				},
@@ -313,6 +313,88 @@
 			"compositePrimaryKeys": {},
 			"uniqueConstraints": {}
 		},
+		"user_key": {
+			"name": "user_key",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "varchar(255)",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "varchar(15)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"hashed_password": {
+					"name": "hashed_password",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"user_key_user_id_users_id_fk": {
+					"name": "user_key_user_id_users_id_fk",
+					"tableFrom": "user_key",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"user_session": {
+			"name": "user_session",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "varchar(128)",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"user_id": {
+					"name": "user_id",
+					"type": "varchar(15)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"active_expires": {
+					"name": "active_expires",
+					"type": "bigint",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"idle_expires": {
+					"name": "idle_expires",
+					"type": "bigint",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"user_session_user_id_users_id_fk": {
+					"name": "user_session_user_id_users_id_fk",
+					"tableFrom": "user_session",
+					"tableTo": "users",
+					"columnsFrom": ["user_id"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
 		"user_votes": {
 			"name": "user_votes",
 			"schema": "",
@@ -337,7 +419,7 @@
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "integer",
+					"type": "varchar(15)",
 					"primaryKey": false,
 					"notNull": true
 				},
@@ -388,7 +470,7 @@
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "varchar(15)",
 					"primaryKey": true,
 					"notNull": true
 				},

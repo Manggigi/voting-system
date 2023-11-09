@@ -1,7 +1,6 @@
-import { getHackathons } from '$lib/hackathons';
-
-export async function load() {
-	const hackathons = await getHackathons();
+export async function load({ parent }) {
+	// const hackathons = await getHackathons();
+	const { hackathons } = await parent();
 
 	return {
 		hackathons

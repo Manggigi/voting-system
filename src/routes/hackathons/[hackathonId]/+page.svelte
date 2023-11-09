@@ -14,4 +14,3 @@
 		>View results</a
 	>
 </div>
-<p class="mt-4">{JSON.stringify(data, null, 2)}</p>

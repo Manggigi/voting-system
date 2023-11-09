@@ -1,12 +1,11 @@
-import type { NewUserVote, User } from '$apptypes';
-import { createUserVote, getHackathonTeams, getUserVoteById } from '$lib/hackathons';
+import type { NewUserVote } from '@types';
+import { createUserVote, getHackathonTeams, getUserVoteByUserId } from '$lib/hackathons';
 import { redirect } from '@sveltejs/kit';
 
-export async function load({ params, cookies }) {
-	const user = cookies.get('user');
+export async function load({ params, locals }) {
+	const user = locals.user;
 	if (user) {
-		const userData: User = JSON.parse(user);
-		const userVote = await getUserVoteById(userData.id.toString());
+		const userVote = await getUserVoteByUserId(user.id);
 		console.log('🚀 ~ file: +page.server.ts:10 ~ load ~ userVote:', userVote);
 		if (userVote?.id) {
 			// already have a vote, do not proceed
@@ -17,7 +16,7 @@ export async function load({ params, cookies }) {
 	const hackathonId = params.hackathonId as unknown as number;
 	const hackathonTeams = await getHackathonTeams();
 
-	return { hackathonId, hackathonTeams };
+	return { user, hackathonId, hackathonTeams };
 }
 
 export const actions = {
@@ -35,9 +34,10 @@ export const actions = {
 				const vote: NewUserVote = {
 					hackathon_id: Number(hackathonId),
 					hackathon_team_id: Number(teamId),
-					user_id: Number(user_id)
+					user_id: user_id
 				};
 				await createUserVote(vote);
+				console.log('🚀 ~ file: +page.server.ts:40 ~ default: ~ createUserVote:');
 			}
 		} catch (error) {
 			console.error(error);

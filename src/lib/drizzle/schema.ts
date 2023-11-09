@@ -1,18 +1,22 @@
 import {
+	bigint,
 	integer,
 	pgEnum,
 	pgTable,
 	serial,
 	text,
 	timestamp,
-	uniqueIndex
+	uniqueIndex,
+	varchar
 } from 'drizzle-orm/pg-core';
 
-// Define tables
+// from lucia
 export const users = pgTable(
 	'users',
 	{
-		id: serial('id').primaryKey(),
+		id: varchar('id', {
+			length: 15
+		}).primaryKey(),
 		name: text('name').notNull(),
 		username: text('username').notNull(),
 		avatar: text('avatar').notNull(),
@@ -24,6 +28,35 @@ export const users = pgTable(
 		};
 	}
 );
+
+export const session = pgTable('user_session', {
+	id: varchar('id', {
+		length: 128
+	}).primaryKey(),
+	userId: varchar('user_id', {
+		length: 15
+	})
+		.notNull()
+		.references(() => users.id),
+	activeExpires: bigint('active_expires', {
+		mode: 'number'
+	}).notNull(),
+	idleExpires: bigint('idle_expires', {
+		mode: 'number'
+	}).notNull()
+});
+
+export const key = pgTable('user_key', {
+	id: varchar('id', {
+		length: 255
+	}).primaryKey(),
+	userId: varchar('user_id', {
+		length: 15
+	})
+		.notNull()
+		.references(() => users.id),
+	hashedPassword: text('hashed_password')
+});
 
 export const statusEnum = pgEnum('status', ['NEW', 'COMPLETED', 'CANCELLED']);
 
@@ -62,7 +95,9 @@ export const hackathonParticipants = pgTable('hackathon_participants', {
 	hackathon_id: integer('hackathon_id')
 		.notNull()
 		.references(() => hackathons.id),
-	user_id: integer('user_id')
+	user_id: varchar('user_id', {
+		length: 15
+	})
 		.notNull()
 		.references(() => users.id)
 });
@@ -72,7 +107,9 @@ export const hackathonJudges = pgTable('hackathon_judges', {
 	hackathon_id: integer('hackathon_id')
 		.notNull()
 		.references(() => hackathons.id),
-	user_id: integer('user_id')
+	user_id: varchar('user_id', {
+		length: 15
+	})
 		.notNull()
 		.references(() => users.id)
 });
@@ -85,7 +122,9 @@ export const userVotes = pgTable('user_votes', {
 	hackathon_team_id: integer('hackathon_team_id')
 		.notNull()
 		.references(() => hackathonTeams.id),
-	user_id: integer('user_id')
+	user_id: varchar('user_id', {
+		length: 15
+	})
 		.notNull()
 		.references(() => users.id),
 	created_at: timestamp('created_at').defaultNow().notNull()
@@ -104,7 +143,9 @@ export const judgeVotes = pgTable('judge_votes', {
 	hackathon_team_id: integer('hackathon_team_id')
 		.notNull()
 		.references(() => hackathonTeams.id),
-	user_id: integer('user_id')
+	user_id: varchar('user_id', {
+		length: 15
+	})
 		.notNull()
 		.references(() => users.id),
 	created_at: timestamp('created_at').defaultNow().notNull()
