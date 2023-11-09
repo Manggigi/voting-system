@@ -19,7 +19,7 @@ export const getUserById = async (userId: number) => {
 
 export const createJudge = async (judgeData: NewHackathonJudges) => {
 	db.insert(hackathonJudges).values(judgeData).execute();
-}
+};
 
 export const getJudges = async (hackathonId: number) => {
 	const output = await db
