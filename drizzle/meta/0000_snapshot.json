@@ -1,7 +1,7 @@
 {
 	"version": "5",
 	"dialect": "pg",
-	"id": "201dae00-736a-41c2-a611-a40b59881b18",
+	"id": "3b8a10cc-d330-41cc-a86b-165a7e9b90bf",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
 		"hackathon_judges": {
@@ -170,6 +170,24 @@
 				"description": {
 					"name": "description",
 					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"status": {
+					"name": "status",
+					"type": "status",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"start_date": {
+					"name": "start_date",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"end_date": {
+					"name": "end_date",
+					"type": "timestamp",
 					"primaryKey": false,
 					"notNull": true
 				},
@@ -412,7 +430,16 @@
 			"uniqueConstraints": {}
 		}
 	},
-	"enums": {},
+	"enums": {
+		"status": {
+			"name": "status",
+			"values": {
+				"NEW": "NEW",
+				"COMPLETED": "COMPLETED",
+				"CANCELLED": "CANCELLED"
+			}
+		}
+	},
 	"schemas": {},
 	"_meta": {
 		"schemas": {},

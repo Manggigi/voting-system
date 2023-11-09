@@ -1,14 +1,7 @@
 import { and, eq } from 'drizzle-orm';
 import { db } from './drizzle';
-import { hackathonParticipants, hackathonTeams, hackathons, judgeVotes, userVotes } from './drizzle/schema';
-import type { NewHackathon, NewHackathonTeams, NewJudgeVotes, NewUserVotes } from '$apptypes';
-import { json } from '@sveltejs/kit';
-import type { getJudges } from './users';
-
-// TODO:
-// change id type string to numbere
-// Get hackathon details by id
-// Get table of all existing hackathons and their details (low prio)
+import { hackathonTeams, hackathons, judgeVotes, userVotes } from './drizzle/schema';
+import type { NewHackathon, NewHackathonTeam, NewJudgeVote, NewUserVote } from '$apptypes';
 
 export const createHackathon = async (hackathonData: NewHackathon) => {
 	await db.insert(hackathons).values(hackathonData).execute();
@@ -27,7 +20,7 @@ export const getHackathonById = async (hackathonId: string) => {
 	return hackathonData[0];
 };
 
-export const createTeam = async (teamData: NewHackathonTeams) => {
+export const createTeam = async (teamData: NewHackathonTeam) => {
 	await db.insert(hackathonTeams).values(teamData).execute();
 };
 
@@ -36,11 +29,11 @@ export const getTeamsByHackathonId = async (hackathonId: number) => {
 		.select()
 		.from(hackathonTeams)
 		.fullJoin(hackathons, eq(hackathons.id, hackathonTeams.hackathon_id))
-		.where(eq(hackathonTeams.hackathon_id, hackathonId))
+		.where(eq(hackathonTeams.hackathon_id, hackathonId));
 	return teamData;
 };
 
-export const createUserVote = async (userVoteData: NewUserVotes) => {
+export const createUserVote = async (userVoteData: NewUserVote) => {
 	await db.insert(userVotes).values(userVoteData).execute();
 };
 
@@ -48,14 +41,13 @@ export const getUserVotesByHackathonId = async (hackathonId: number, hackathonTe
 	const userVoteData = await db
 		.select()
 		.from(userVotes)
-		.where(and(
-			eq(userVotes.hackathon_id, hackathonId),
-			eq(userVotes.hackathon_team_id, hackathonTeam)
-		));
+		.where(
+			and(eq(userVotes.hackathon_id, hackathonId), eq(userVotes.hackathon_team_id, hackathonTeam))
+		);
 	return userVoteData;
 };
 
-export const createJudgeVote = async (judgeVoteData: NewJudgeVotes) => {
+export const createJudgeVote = async (judgeVoteData: NewJudgeVote) => {
 	await db.insert(judgeVotes).values(judgeVoteData).execute();
 };
 
@@ -63,9 +55,8 @@ export const getJudgeVotesByHackathonId = async (hackathonId: number, hackathonT
 	const judgeVotesData = await db
 		.select()
 		.from(judgeVotes)
-		.where(and(
-			eq(judgeVotes.hackathon_id, hackathonId),
-			eq(judgeVotes.hackathon_team_id, hackathonTeam)
-		));
+		.where(
+			and(eq(judgeVotes.hackathon_id, hackathonId), eq(judgeVotes.hackathon_team_id, hackathonTeam))
+		);
 	return judgeVotesData;
 };

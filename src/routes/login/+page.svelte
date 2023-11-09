@@ -14,7 +14,7 @@
 		currentUser = JSON.parse(localStorage.getItem('user')!);
 		// set user to localstorage
 		const user: User = {
-			id: 1,
+			id: 55,
 			name: 'Gian Denorte',
 			username: 'getgian',
 			created_at: new Date(),
@@ -22,11 +22,12 @@
 				'https://giandenorte.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.e7bd1e3b.webp&w=256&q=75'
 		};
 		localStorage.setItem('user', JSON.stringify(user));
+		document.cookie = `user=${JSON.stringify(user)}; path=/;`;
 		userStore.set(user);
 
 		setTimeout(() => {
 			goto(routes.home);
-		}, 1000);
+		}, 300);
 	};
 </script>
 
