@@ -1,4 +1,4 @@
-import type { NewUser } from '$apptypes';
+import type { NewHackathonJudges, NewUser } from '$apptypes';
 import { eq } from 'drizzle-orm';
 import { db } from './drizzle';
 import { hackathonJudges, hackathons, users } from './drizzle/schema';
@@ -12,17 +12,22 @@ export const getUsers = async () => {
 	return usersData;
 };
 
-export const getUserById = async (idParameter: number) => {
-	const usersData = await db.select().from(users).where(eq(users.id, idParameter));
+export const getUserById = async (userId: number) => {
+	const usersData = await db.select().from(users).where(eq(users.id, userId));
 	return usersData;
 };
 
-export const getJudges = async () => {
+export const createJudge = async (judgeData: NewHackathonJudges) => {
+	db.insert(hackathonJudges).values(judgeData).execute();
+};
+
+export const getJudges = async (hackathonId: number) => {
 	const output = await db
 		.select()
 		.from(hackathonJudges)
 		.innerJoin(hackathons, eq(hackathons.id, hackathonJudges.hackathon_id))
-		.innerJoin(users, eq(users.id, hackathonJudges.user_id));
+		.innerJoin(users, eq(users.id, hackathonJudges.user_id))
+		.where(eq(hackathonJudges.id, hackathonId));
 
 	return output;
 };
