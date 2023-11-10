@@ -28,9 +28,9 @@ export const GET: RequestHandler = async ({ cookies, url, locals }) => {
 				attributes: {
 					name: discordUser.global_name || 'guest',
 					username: discordUser.username,
-					avatar:
-						`https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.jpg` ||
-						'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png'
+					avatar: discordUser.avatar
+						? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.jpg`
+						: 'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png'
 				}
 			});
 			return user;
