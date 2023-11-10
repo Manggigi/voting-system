@@ -1,8 +1,6 @@
 import { getHackathonById } from '$lib/hackathons';
-import { redirect } from '@sveltejs/kit';
 
-export const load = async ({ params, locals }) => {
-	if (!locals.user) throw redirect(307, '/login/discord');
+export const load = async ({ params }) => {
 	const { hackathonId } = params;
 	try {
 		const hackathon = await getHackathonById(hackathonId);

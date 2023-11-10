@@ -4,7 +4,7 @@ import { db } from './drizzle';
 import { hackathonJudges, hackathons, users } from './drizzle/schema';
 
 export const createUser = async (userData: NewUser) => {
-	db.insert(users).values(userData).execute();
+	db.insert(users).values(userData).onConflictDoNothing().execute();
 };
 
 export const getUsers = async () => {

@@ -137,24 +137,32 @@ const newHackathonJudges: NewHackathonJudge[] = newHackathons.flatMap((hackathon
 	}));
 });
 
-const newUserVotes: NewUserVote[] = newHackathons.flatMap(() => {
-	return newHackathonParticipants.map((participant) => ({
+const newUserVotes: NewUserVote[] = newHackathons.flatMap((hackathon) => {
+	const teamsInThisHackathon = newHackathonTeams.filter(
+		(team) => team.hackathon_id === hackathon.id
+	);
+	if (teamsInThisHackathon.length === 0) {
+		return []; // return an empty array if there are no teams for this hackathon
+	}
+	return newUsers.map((user) => ({
 		id: nanoid(),
-		hackathon_id: participant.hackathon_id,
-		user_id: participant.user_id,
-		hackathon_team_id: newHackathonTeams[Math.floor(Math.random() * newHackathonTeams.length)].id,
+		hackathon_id: hackathon.id,
+		user_id: user.id,
+		hackathon_team_id:
+			teamsInThisHackathon[Math.floor(Math.random() * teamsInThisHackathon.length)].id,
 		created_at: new Date()
 	}));
 });
 
-const newJudgesVotes: NewJudgeVote[] = newHackathonTeams.flatMap((team) => {
-	return newHackathonJudges.map((judge) => ({
+const newJudgeVotes: NewJudgeVote[] = newHackathonTeams.flatMap((team) => {
+	return judgeUsers.map((judge) => ({
 		id: nanoid(),
-		hackathon_id: judge.hackathon_id,
-		user_id: judge.user_id,
-		score: Math.floor(Math.random() * 25) + 1,
+		hackathon_id: team.hackathon_id,
+		user_id: judge.id,
+		score: Math.floor(Math.random() * 10) + 1 + 15,
 		comments: 'This is a comment',
-		hackathon_judge_id: judge.id,
+		hackathon_judge_id:
+			newHackathonJudges.find((newJudge) => judge.id === newJudge.user_id)?.id || '',
 		hackathon_team_id: team.id,
 		created_at: new Date()
 	}));
@@ -166,13 +174,18 @@ export async function seed() {
 		const insertedUsers: User[] = await db
 			.insert(users)
 			.values([...newUsers, ...judgeUsers])
-			.returning();
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedUsers.length} users`);
 	}
 
 	const hackathonsData = await db.select().from(hackathons);
 	if (hackathonsData.length === 0) {
-		const insertedHackathons = await db.insert(hackathons).values(newHackathons).returning();
+		const insertedHackathons = await db
+			.insert(hackathons)
+			.values(newHackathons)
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedHackathons.length} hackathons`);
 	}
 
@@ -181,7 +194,8 @@ export async function seed() {
 		const insertedHackathonTeams = await db
 			.insert(hackathonTeams)
 			.values(newHackathonTeams)
-			.returning();
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedHackathonTeams.length} hackathon teams`);
 	}
 
@@ -190,7 +204,8 @@ export async function seed() {
 		const insertedHackathonParticipants = await db
 			.insert(hackathonParticipants)
 			.values(newHackathonParticipants)
-			.returning();
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedHackathonParticipants.length} hackathon participants`);
 	}
 
@@ -199,21 +214,32 @@ export async function seed() {
 		const insertedHackathonJudges = await db
 			.insert(hackathonJudges)
 			.values(newHackathonJudges)
-			.returning();
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedHackathonJudges.length} hackathon judges`);
 	}
 
 	const userVotesData = await db.select().from(userVotes);
 	if (userVotesData.length === 0) {
-		const insertedUserVotes = await db.insert(userVotes).values(newUserVotes).returning();
+		const insertedUserVotes = await db
+			.insert(userVotes)
+			.values(newUserVotes)
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedUserVotes.length} user votes`);
 	}
 
 	const judgeVotesData = await db.select().from(judgeVotes);
 	if (judgeVotesData.length === 0) {
-		const insertedJudgeVotes = await db.insert(judgeVotes).values(newJudgesVotes).returning();
+		const insertedJudgeVotes = await db
+			.insert(judgeVotes)
+			.values(newJudgeVotes)
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedJudgeVotes.length} judge votes`);
 	}
+
+	console.log(`No more seeding needed!`);
 
 	return {};
 }

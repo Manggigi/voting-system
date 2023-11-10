@@ -1,27 +1,35 @@
 import type { NewUserVote } from '@types';
-import { createUserVote, getHackathonTeams, getUserVoteByUserId } from '$lib/hackathons';
+import {
+	createUserVote,
+	getHackathonById,
+	getHackathonTeamsByHackathonId,
+	getUserVoteByUserId
+} from '$lib/hackathons';
 import { redirect } from '@sveltejs/kit';
+import { nanoid } from 'nanoid';
 
 export async function load({ params, locals }) {
 	const user = locals.user;
+	if (!user) throw redirect(307, '/login');
+
+	let userHasVoted = false;
 	if (user) {
 		try {
 			const userVote = await getUserVoteByUserId(user.id);
-			console.log('🚀 ~ file: +page.server.ts:10 ~ load ~ userVote:', userVote);
-			if (userVote?.id) {
-				// already have a vote, do not proceed
-				throw redirect(303, '/already-voted');
-			}
+			userHasVoted = !!userVote?.id;
 		} catch (e) {
 			console.log(e);
 		}
 	}
+	if (userHasVoted) {
+		throw redirect(303, '/already-voted');
+	}
 
-	const hackathonId = params.hackathonId as unknown as number;
+	const hackathonId = params.hackathonId;
 	try {
-		const hackathonTeams = await getHackathonTeams();
-
-		return { user, hackathonId, hackathonTeams };
+		const hackathonTeams = await getHackathonTeamsByHackathonId(hackathonId);
+		const hackathon = getHackathonById(hackathonId);
+		return { user, hackathonTeams, hackathon };
 	} catch (e) {
 		console.log(e);
 	}
@@ -29,7 +37,7 @@ export async function load({ params, locals }) {
 
 export const actions = {
 	default: async ({ request, params }) => {
-		const hackathonId = params.hackathonId as unknown as number;
+		const hackathonId = params.hackathonId;
 
 		const form = await request.formData();
 		const teamId = (form.get('team') ?? '') as string;
@@ -40,12 +48,12 @@ export const actions = {
 		try {
 			if (teamId && user_id) {
 				const vote: NewUserVote = {
-					hackathon_id: Number(hackathonId),
-					hackathon_team_id: Number(teamId),
+					id: nanoid(),
+					hackathon_id: hackathonId,
+					hackathon_team_id: teamId,
 					user_id: user_id
 				};
 				await createUserVote(vote);
-				console.log('🚀 ~ file: +page.server.ts:40 ~ default: ~ createUserVote:');
 			}
 		} catch (error) {
 			console.error(error);

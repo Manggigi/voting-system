@@ -9,6 +9,8 @@
 	let timeDifferenceInMilliseconds =
 		data.hackathon?.end_date.getTime()! - currentTimeStamp.getTime();
 	let countdownValue = timeDifferenceInMilliseconds;
+
+	let sortedData = data.finalScores?.scoreData.sort((a, b) => b.finalScore - a.finalScore) || [];
 </script>
 
 {#if currentTimeStamp < (data.hackathon?.start_date ?? nextMonthTimeStamp) || data.hackathon?.start_date == undefined}
@@ -26,7 +28,7 @@
 	<p>Check back after the countdown timer's gone to zero!</p>
 	<p>Time before voting season ends: {countdownValue}</p>
 {:else if currentTimeStamp > data.hackathon?.end_date}
-	<h1>{data.hackathon?.name} is now over!</h1>
+	<h1 class="h1">{data.hackathon?.name} is now over!</h1>
 	<div class="table-container text-white">
 		<table class="table table-hover">
 			<thead>
@@ -38,7 +40,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each data.finalScores?.scoreData || [] as team, i}
+				{#each sortedData || [] as team, i}
 					<tr>
 						<td>{team.teamName}</td>
 						<td>{team.communityVotes}</td>

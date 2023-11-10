@@ -1,7 +1,7 @@
 {
 	"version": "5",
 	"dialect": "pg",
-	"id": "6888b99b-d27e-4038-a0a5-e164b056fdee",
+	"id": "5c7b509b-f99e-4186-989f-10162eb97afd",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
 		"hackathon_judges": {

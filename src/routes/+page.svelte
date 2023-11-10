@@ -6,7 +6,7 @@
 
 <div class="space-y-8">
 	{#if data.user}
-		<h3 class="h3">Welcome back, {data.user?.name}!</h3>
+		<h3 class="h3">Welcome, {data.user?.name}!</h3>
 		<hr />
 	{/if}
 	<div>
