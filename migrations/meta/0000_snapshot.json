@@ -1,531 +1,595 @@
 {
-	"version": "5",
-	"dialect": "pg",
-	"id": "6888b99b-d27e-4038-a0a5-e164b056fdee",
-	"prevId": "00000000-0000-0000-0000-000000000000",
-	"tables": {
-		"hackathon_judges": {
-			"name": "hackathon_judges",
-			"schema": "",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "varchar(255)",
-					"primaryKey": true,
-					"notNull": true
-				},
-				"hackathon_id": {
-					"name": "hackathon_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"user_id": {
-					"name": "user_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				}
-			},
-			"indexes": {},
-			"foreignKeys": {
-				"hackathon_judges_hackathon_id_hackathons_id_fk": {
-					"name": "hackathon_judges_hackathon_id_hackathons_id_fk",
-					"tableFrom": "hackathon_judges",
-					"tableTo": "hackathons",
-					"columnsFrom": ["hackathon_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"hackathon_judges_user_id_users_id_fk": {
-					"name": "hackathon_judges_user_id_users_id_fk",
-					"tableFrom": "hackathon_judges",
-					"tableTo": "users",
-					"columnsFrom": ["user_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				}
-			},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		},
-		"hackathon_participants": {
-			"name": "hackathon_participants",
-			"schema": "",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "varchar(255)",
-					"primaryKey": true,
-					"notNull": true
-				},
-				"hackathon_team_id": {
-					"name": "hackathon_team_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"hackathon_id": {
-					"name": "hackathon_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"user_id": {
-					"name": "user_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				}
-			},
-			"indexes": {},
-			"foreignKeys": {
-				"hackathon_participants_hackathon_team_id_hackathon_teams_id_fk": {
-					"name": "hackathon_participants_hackathon_team_id_hackathon_teams_id_fk",
-					"tableFrom": "hackathon_participants",
-					"tableTo": "hackathon_teams",
-					"columnsFrom": ["hackathon_team_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"hackathon_participants_hackathon_id_hackathons_id_fk": {
-					"name": "hackathon_participants_hackathon_id_hackathons_id_fk",
-					"tableFrom": "hackathon_participants",
-					"tableTo": "hackathons",
-					"columnsFrom": ["hackathon_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"hackathon_participants_user_id_users_id_fk": {
-					"name": "hackathon_participants_user_id_users_id_fk",
-					"tableFrom": "hackathon_participants",
-					"tableTo": "users",
-					"columnsFrom": ["user_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				}
-			},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		},
-		"hackathon_teams": {
-			"name": "hackathon_teams",
-			"schema": "",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "varchar(255)",
-					"primaryKey": true,
-					"notNull": true
-				},
-				"name": {
-					"name": "name",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"hackathon_id": {
-					"name": "hackathon_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				}
-			},
-			"indexes": {},
-			"foreignKeys": {
-				"hackathon_teams_hackathon_id_hackathons_id_fk": {
-					"name": "hackathon_teams_hackathon_id_hackathons_id_fk",
-					"tableFrom": "hackathon_teams",
-					"tableTo": "hackathons",
-					"columnsFrom": ["hackathon_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				}
-			},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		},
-		"hackathons": {
-			"name": "hackathons",
-			"schema": "",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "varchar(255)",
-					"primaryKey": true,
-					"notNull": true
-				},
-				"name": {
-					"name": "name",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"description": {
-					"name": "description",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"status": {
-					"name": "status",
-					"type": "status",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"start_date": {
-					"name": "start_date",
-					"type": "timestamp",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"end_date": {
-					"name": "end_date",
-					"type": "timestamp",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"created_at": {
-					"name": "created_at",
-					"type": "timestamp",
-					"primaryKey": false,
-					"notNull": true,
-					"default": "now()"
-				},
-				"updated_at": {
-					"name": "updated_at",
-					"type": "timestamp",
-					"primaryKey": false,
-					"notNull": true,
-					"default": "now()"
-				}
-			},
-			"indexes": {
-				"unique_idx": {
-					"name": "unique_idx",
-					"columns": ["name"],
-					"isUnique": true
-				}
-			},
-			"foreignKeys": {},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		},
-		"judge_votes": {
-			"name": "judge_votes",
-			"schema": "",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "varchar(255)",
-					"primaryKey": true,
-					"notNull": true
-				},
-				"score": {
-					"name": "score",
-					"type": "integer",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"comments": {
-					"name": "comments",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"hackathon_judge_id": {
-					"name": "hackathon_judge_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"hackathon_id": {
-					"name": "hackathon_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"hackathon_team_id": {
-					"name": "hackathon_team_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"user_id": {
-					"name": "user_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"created_at": {
-					"name": "created_at",
-					"type": "timestamp",
-					"primaryKey": false,
-					"notNull": true,
-					"default": "now()"
-				}
-			},
-			"indexes": {},
-			"foreignKeys": {
-				"judge_votes_hackathon_judge_id_hackathon_judges_id_fk": {
-					"name": "judge_votes_hackathon_judge_id_hackathon_judges_id_fk",
-					"tableFrom": "judge_votes",
-					"tableTo": "hackathon_judges",
-					"columnsFrom": ["hackathon_judge_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"judge_votes_hackathon_id_hackathons_id_fk": {
-					"name": "judge_votes_hackathon_id_hackathons_id_fk",
-					"tableFrom": "judge_votes",
-					"tableTo": "hackathons",
-					"columnsFrom": ["hackathon_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"judge_votes_hackathon_team_id_hackathon_teams_id_fk": {
-					"name": "judge_votes_hackathon_team_id_hackathon_teams_id_fk",
-					"tableFrom": "judge_votes",
-					"tableTo": "hackathon_teams",
-					"columnsFrom": ["hackathon_team_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"judge_votes_user_id_users_id_fk": {
-					"name": "judge_votes_user_id_users_id_fk",
-					"tableFrom": "judge_votes",
-					"tableTo": "users",
-					"columnsFrom": ["user_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				}
-			},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		},
-		"user_key": {
-			"name": "user_key",
-			"schema": "",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "varchar(255)",
-					"primaryKey": true,
-					"notNull": true
-				},
-				"user_id": {
-					"name": "user_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"hashed_password": {
-					"name": "hashed_password",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": false
-				}
-			},
-			"indexes": {},
-			"foreignKeys": {
-				"user_key_user_id_users_id_fk": {
-					"name": "user_key_user_id_users_id_fk",
-					"tableFrom": "user_key",
-					"tableTo": "users",
-					"columnsFrom": ["user_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				}
-			},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		},
-		"user_session": {
-			"name": "user_session",
-			"schema": "",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "varchar(128)",
-					"primaryKey": true,
-					"notNull": true
-				},
-				"user_id": {
-					"name": "user_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"active_expires": {
-					"name": "active_expires",
-					"type": "bigint",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"idle_expires": {
-					"name": "idle_expires",
-					"type": "bigint",
-					"primaryKey": false,
-					"notNull": true
-				}
-			},
-			"indexes": {},
-			"foreignKeys": {
-				"user_session_user_id_users_id_fk": {
-					"name": "user_session_user_id_users_id_fk",
-					"tableFrom": "user_session",
-					"tableTo": "users",
-					"columnsFrom": ["user_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				}
-			},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		},
-		"user_votes": {
-			"name": "user_votes",
-			"schema": "",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "varchar(255)",
-					"primaryKey": true,
-					"notNull": true
-				},
-				"hackathon_id": {
-					"name": "hackathon_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"hackathon_team_id": {
-					"name": "hackathon_team_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"user_id": {
-					"name": "user_id",
-					"type": "varchar(255)",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"created_at": {
-					"name": "created_at",
-					"type": "timestamp",
-					"primaryKey": false,
-					"notNull": true,
-					"default": "now()"
-				}
-			},
-			"indexes": {},
-			"foreignKeys": {
-				"user_votes_hackathon_id_hackathons_id_fk": {
-					"name": "user_votes_hackathon_id_hackathons_id_fk",
-					"tableFrom": "user_votes",
-					"tableTo": "hackathons",
-					"columnsFrom": ["hackathon_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"user_votes_hackathon_team_id_hackathon_teams_id_fk": {
-					"name": "user_votes_hackathon_team_id_hackathon_teams_id_fk",
-					"tableFrom": "user_votes",
-					"tableTo": "hackathon_teams",
-					"columnsFrom": ["hackathon_team_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				},
-				"user_votes_user_id_users_id_fk": {
-					"name": "user_votes_user_id_users_id_fk",
-					"tableFrom": "user_votes",
-					"tableTo": "users",
-					"columnsFrom": ["user_id"],
-					"columnsTo": ["id"],
-					"onDelete": "no action",
-					"onUpdate": "no action"
-				}
-			},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		},
-		"users": {
-			"name": "users",
-			"schema": "",
-			"columns": {
-				"id": {
-					"name": "id",
-					"type": "varchar(255)",
-					"primaryKey": true,
-					"notNull": true
-				},
-				"name": {
-					"name": "name",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"username": {
-					"name": "username",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"avatar": {
-					"name": "avatar",
-					"type": "text",
-					"primaryKey": false,
-					"notNull": true
-				},
-				"created_at": {
-					"name": "created_at",
-					"type": "timestamp",
-					"primaryKey": false,
-					"notNull": true,
-					"default": "now()"
-				}
-			},
-			"indexes": {
-				"unique_idx": {
-					"name": "unique_idx",
-					"columns": ["username"],
-					"isUnique": true
-				}
-			},
-			"foreignKeys": {},
-			"compositePrimaryKeys": {},
-			"uniqueConstraints": {}
-		}
-	},
-	"enums": {
-		"status": {
-			"name": "status",
-			"values": {
-				"NEW": "NEW",
-				"COMPLETED": "COMPLETED",
-				"CANCELLED": "CANCELLED"
-			}
-		}
-	},
-	"schemas": {},
-	"_meta": {
-		"schemas": {},
-		"tables": {},
-		"columns": {}
-	}
+  "version": "5",
+  "dialect": "pg",
+  "id": "c5d77742-68d7-4097-ad05-a21fce84a4b1",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "hackathon_judges": {
+      "name": "hackathon_judges",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "hackathon_id": {
+          "name": "hackathon_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "hackathon_judges_hackathon_id_hackathons_id_fk": {
+          "name": "hackathon_judges_hackathon_id_hackathons_id_fk",
+          "tableFrom": "hackathon_judges",
+          "tableTo": "hackathons",
+          "columnsFrom": [
+            "hackathon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "hackathon_judges_user_id_users_id_fk": {
+          "name": "hackathon_judges_user_id_users_id_fk",
+          "tableFrom": "hackathon_judges",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "hackathon_participants": {
+      "name": "hackathon_participants",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "hackathon_team_id": {
+          "name": "hackathon_team_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hackathon_id": {
+          "name": "hackathon_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "hackathon_participants_hackathon_team_id_hackathon_teams_id_fk": {
+          "name": "hackathon_participants_hackathon_team_id_hackathon_teams_id_fk",
+          "tableFrom": "hackathon_participants",
+          "tableTo": "hackathon_teams",
+          "columnsFrom": [
+            "hackathon_team_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "hackathon_participants_hackathon_id_hackathons_id_fk": {
+          "name": "hackathon_participants_hackathon_id_hackathons_id_fk",
+          "tableFrom": "hackathon_participants",
+          "tableTo": "hackathons",
+          "columnsFrom": [
+            "hackathon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "hackathon_participants_user_id_users_id_fk": {
+          "name": "hackathon_participants_user_id_users_id_fk",
+          "tableFrom": "hackathon_participants",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "hackathon_teams": {
+      "name": "hackathon_teams",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hackathon_id": {
+          "name": "hackathon_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "hackathon_teams_hackathon_id_hackathons_id_fk": {
+          "name": "hackathon_teams_hackathon_id_hackathons_id_fk",
+          "tableFrom": "hackathon_teams",
+          "tableTo": "hackathons",
+          "columnsFrom": [
+            "hackathon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "hackathons": {
+      "name": "hackathons",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "status",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "end_date": {
+          "name": "end_date",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "unique_idx": {
+          "name": "unique_idx",
+          "columns": [
+            "name"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "judge_votes": {
+      "name": "judge_votes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "comments": {
+          "name": "comments",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hackathon_judge_id": {
+          "name": "hackathon_judge_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hackathon_id": {
+          "name": "hackathon_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hackathon_team_id": {
+          "name": "hackathon_team_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "judge_votes_hackathon_judge_id_hackathon_judges_id_fk": {
+          "name": "judge_votes_hackathon_judge_id_hackathon_judges_id_fk",
+          "tableFrom": "judge_votes",
+          "tableTo": "hackathon_judges",
+          "columnsFrom": [
+            "hackathon_judge_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "judge_votes_hackathon_id_hackathons_id_fk": {
+          "name": "judge_votes_hackathon_id_hackathons_id_fk",
+          "tableFrom": "judge_votes",
+          "tableTo": "hackathons",
+          "columnsFrom": [
+            "hackathon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "judge_votes_hackathon_team_id_hackathon_teams_id_fk": {
+          "name": "judge_votes_hackathon_team_id_hackathon_teams_id_fk",
+          "tableFrom": "judge_votes",
+          "tableTo": "hackathon_teams",
+          "columnsFrom": [
+            "hackathon_team_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "judge_votes_user_id_users_id_fk": {
+          "name": "judge_votes_user_id_users_id_fk",
+          "tableFrom": "judge_votes",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user_key": {
+      "name": "user_key",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hashed_password": {
+          "name": "hashed_password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_key_user_id_users_id_fk": {
+          "name": "user_key_user_id_users_id_fk",
+          "tableFrom": "user_key",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user_session": {
+      "name": "user_session",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(128)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "active_expires": {
+          "name": "active_expires",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "idle_expires": {
+          "name": "idle_expires",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_session_user_id_users_id_fk": {
+          "name": "user_session_user_id_users_id_fk",
+          "tableFrom": "user_session",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "user_votes": {
+      "name": "user_votes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "hackathon_id": {
+          "name": "hackathon_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "hackathon_team_id": {
+          "name": "hackathon_team_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "user_votes_hackathon_id_hackathons_id_fk": {
+          "name": "user_votes_hackathon_id_hackathons_id_fk",
+          "tableFrom": "user_votes",
+          "tableTo": "hackathons",
+          "columnsFrom": [
+            "hackathon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "user_votes_hackathon_team_id_hackathon_teams_id_fk": {
+          "name": "user_votes_hackathon_team_id_hackathon_teams_id_fk",
+          "tableFrom": "user_votes",
+          "tableTo": "hackathon_teams",
+          "columnsFrom": [
+            "hackathon_team_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "user_votes_user_id_users_id_fk": {
+          "name": "user_votes_user_id_users_id_fk",
+          "tableFrom": "user_votes",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "users": {
+      "name": "users",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(255)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "avatar": {
+          "name": "avatar",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "unique_idx": {
+          "name": "unique_idx",
+          "columns": [
+            "username"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {
+    "status": {
+      "name": "status",
+      "values": {
+        "NEW": "NEW",
+        "COMPLETED": "COMPLETED",
+        "CANCELLED": "CANCELLED"
+      }
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
 }
