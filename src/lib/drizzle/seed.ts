@@ -138,11 +138,18 @@ const newHackathonJudges: NewHackathonJudge[] = newHackathons.flatMap((hackathon
 });
 
 const newUserVotes: NewUserVote[] = newHackathons.flatMap((hackathon) => {
+	const teamsInThisHackathon = newHackathonTeams.filter(
+		(team) => team.hackathon_id === hackathon.id
+	);
+	if (teamsInThisHackathon.length === 0) {
+		return []; // return an empty array if there are no teams for this hackathon
+	}
 	return newUsers.map((user) => ({
 		id: nanoid(),
 		hackathon_id: hackathon.id,
 		user_id: user.id,
-		hackathon_team_id: newHackathonTeams[Math.floor(Math.random() * newHackathonTeams.length)].id,
+		hackathon_team_id:
+			teamsInThisHackathon[Math.floor(Math.random() * teamsInThisHackathon.length)].id,
 		created_at: new Date()
 	}));
 });
