@@ -61,7 +61,7 @@
 				title="August 1 is the official start of the competition."
 				on:click={onClickSubmit}
 				disabled={!enableSubmit}
-				class="btn variant-filled-primary"
+				class="btn variant-filled-secondary"
 			>
 				Submit Vote
 			</button>

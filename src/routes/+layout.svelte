@@ -13,7 +13,7 @@
 <div class="text-slate-800">
 	<Navbar user={data.user} />
 
-	{#if $page.route.id == '/countdown'}
+	{#if $page.route.id?.includes('/hackathons/')}
 		<slot />
 	{:else}
 		<main class="min-h-screen pt-20 bg-white">
