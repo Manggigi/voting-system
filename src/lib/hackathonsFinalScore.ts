@@ -1,30 +1,39 @@
+import type { UserVote } from '@types';
 import {
 	getTeamsByHackathonId,
 	getJudgeVotesByHackathonId,
-	getUserVotesByHackathonId
+	getUserVotesByHackathonId,
+	getJudgesByHackathonId,
+	getAlltUserVotesInHackathon
 } from './hackathons';
-import { getJudges, getUsers } from './users';
 
 export const getFinalTeamScore = async (hackathonId: number) => {
 	console.log('🚀 ~ file: hackathons.ts:11 ~ getFinalTeamScore ~ hackathonId:', hackathonId);
 
 	const teamData = await getTeamsByHackathonId(hackathonId);
-	let teamIdBuffer: number;
-	let userVotesDataBuffer: any;
-	let y = await getUsers();
-	let numberOfCommunityVoters = y.length;
-	let x = await getJudges(hackathonId);
-	let numberOfJudges = x.length;
+	let teamIdBuffer: number | undefined = undefined;
+	let userVotesDataBuffer: UserVote[] = [];
+	const y = await getAlltUserVotesInHackathon(hackathonId);
+	const numberOfCommunityVoters = y.length;
+	const x = await getJudgesByHackathonId(hackathonId);
+	const numberOfJudges = x.length;
 
 	const communityWeight = 20;
 	const judgeWeight = 80;
-	const maxScorePerJudge = 5;
+	const maxScorePerJudge = 25;
 	let judgeVotesDataBuffer: number;
 	let judgeVotesData = [];
 
-	let output = [];
+	const scoreData = [];
 	for (let i = 0; i < teamData.length; i++) {
-		teamIdBuffer = teamData[i].hackathon_teams?.id!;
+		if (teamData[i].hackathon_teams) {
+			teamIdBuffer = teamData[i].hackathon_teams?.id;
+		} else {
+			// Set a default value for teamIdBuffer
+			teamIdBuffer = undefined;
+		}
+
+		// teamIdBuffer = teamData[i].hackathon_teams?.id!;
 		judgeVotesData = await getJudgeVotesByHackathonId(hackathonId, teamIdBuffer!);
 		judgeVotesDataBuffer = 0;
 
@@ -35,22 +44,29 @@ export const getFinalTeamScore = async (hackathonId: number) => {
 		userVotesDataBuffer = await getUserVotesByHackathonId(hackathonId, teamIdBuffer!);
 
 		let weightedCommunityVotes =
-			(userVotesDataBuffer.length / (numberOfCommunityVoters - numberOfJudges)) * communityWeight;
+			(userVotesDataBuffer.length / numberOfCommunityVoters) * communityWeight;
 		let weightedJudgeVotes =
 			(judgeVotesDataBuffer / (numberOfJudges * maxScorePerJudge)) * judgeWeight;
 
-		output[i] = {
+		if (Number.isNaN(weightedCommunityVotes)) weightedCommunityVotes = 0;
+		if (Number.isNaN(weightedJudgeVotes)) weightedJudgeVotes = 0;
+
+		const finalScore = weightedCommunityVotes + weightedJudgeVotes;
+		scoreData[i] = {
 			teamName: teamData[i].hackathon_teams?.name,
 			communityVotes: userVotesDataBuffer.length,
 			judgeVotes: judgeVotesDataBuffer,
 			weightedCommunityVotes: weightedCommunityVotes,
 			weightedJudgeVotes: weightedJudgeVotes,
-			finalScore: weightedCommunityVotes + weightedJudgeVotes
+			finalScore: finalScore
 		};
 	}
 
 	teamIdBuffer = 0;
+	for (let i = 0; i < scoreData.length; i++) {
+		console.log(scoreData[i].finalScore);
+	}
 	return {
-		output
+		scoreData
 	};
 };

@@ -1,0 +1,22 @@
+[
+	{
+		"hackathon_id": "1",
+		"user_id": "10001"
+	},
+	{
+		"hackathon_id": "2",
+		"user_id": "10002"
+	},
+	{
+		"hackathon_id": "3",
+		"user_id": "10003"
+	},
+	{
+		"hackathon_id": "4",
+		"user_id": "10004"
+	},
+	{
+		"hackathon_id": "5",
+		"user_id": "10005"
+	}
+]
