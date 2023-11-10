@@ -18,7 +18,7 @@ import {
 } from './drizzle/schema';
 
 export const createHackathon = async (hackathonData: NewHackathon) => {
-	await db.insert(hackathons).values(hackathonData).execute();
+	await db.insert(hackathons).values(hackathonData).onConflictDoNothing().execute();
 };
 
 export const getHackathons = async () => {
@@ -32,7 +32,7 @@ export const getHackathonById = async (hackathonId: string) => {
 };
 
 export const createTeam = async (teamData: NewHackathonTeam) => {
-	await db.insert(hackathonTeams).values(teamData).execute();
+	await db.insert(hackathonTeams).values(teamData).onConflictDoNothing().execute();
 };
 
 export const getUserVoteByUserId = async (userId: string) => {
@@ -71,7 +71,7 @@ export const getTeamsByHackathonId = async (hackathonId: string) => {
 };
 
 export const createUserVote = async (userVoteData: NewUserVote) => {
-	await db.insert(userVotes).values(userVoteData).execute();
+	await db.insert(userVotes).values(userVoteData).onConflictDoNothing().execute();
 };
 
 export const getUserVotesByHackathonId = async (hackathonId: string, hackathonTeamId: string) => {
@@ -85,7 +85,7 @@ export const getUserVotesByHackathonId = async (hackathonId: string, hackathonTe
 };
 
 export const createJudgeVote = async (judgeVoteData: NewJudgeVote) => {
-	await db.insert(judgeVotes).values(judgeVoteData).execute();
+	await db.insert(judgeVotes).values(judgeVoteData).onConflictDoNothing().execute();
 };
 
 export const getHackathonJudges = async () => {
@@ -109,9 +109,13 @@ export const getJudgeVotesByHackathonId = async (hackathonId: string, hackathonT
 export const createHackathonParticipant = async (
 	hackathonParticipantData: NewHackathonParticipant
 ) => {
-	await db.insert(hackathonParticipants).values(hackathonParticipantData).execute();
+	await db
+		.insert(hackathonParticipants)
+		.values(hackathonParticipantData)
+		.onConflictDoNothing()
+		.execute();
 };
 
 export const createHackathonJudge = async (hackathonJudgeData: NewHackathonJudge) => {
-	await db.insert(hackathonJudges).values(hackathonJudgeData).execute();
+	await db.insert(hackathonJudges).values(hackathonJudgeData).onConflictDoNothing().execute();
 };

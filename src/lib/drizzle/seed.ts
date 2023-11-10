@@ -166,13 +166,18 @@ export async function seed() {
 		const insertedUsers: User[] = await db
 			.insert(users)
 			.values([...newUsers, ...judgeUsers])
-			.returning();
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedUsers.length} users`);
 	}
 
 	const hackathonsData = await db.select().from(hackathons);
 	if (hackathonsData.length === 0) {
-		const insertedHackathons = await db.insert(hackathons).values(newHackathons).returning();
+		const insertedHackathons = await db
+			.insert(hackathons)
+			.values(newHackathons)
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedHackathons.length} hackathons`);
 	}
 
@@ -181,7 +186,8 @@ export async function seed() {
 		const insertedHackathonTeams = await db
 			.insert(hackathonTeams)
 			.values(newHackathonTeams)
-			.returning();
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedHackathonTeams.length} hackathon teams`);
 	}
 
@@ -190,7 +196,8 @@ export async function seed() {
 		const insertedHackathonParticipants = await db
 			.insert(hackathonParticipants)
 			.values(newHackathonParticipants)
-			.returning();
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedHackathonParticipants.length} hackathon participants`);
 	}
 
@@ -199,19 +206,28 @@ export async function seed() {
 		const insertedHackathonJudges = await db
 			.insert(hackathonJudges)
 			.values(newHackathonJudges)
-			.returning();
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedHackathonJudges.length} hackathon judges`);
 	}
 
 	const userVotesData = await db.select().from(userVotes);
 	if (userVotesData.length === 0) {
-		const insertedUserVotes = await db.insert(userVotes).values(newUserVotes).returning();
+		const insertedUserVotes = await db
+			.insert(userVotes)
+			.values(newUserVotes)
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedUserVotes.length} user votes`);
 	}
 
 	const judgeVotesData = await db.select().from(judgeVotes);
 	if (judgeVotesData.length === 0) {
-		const insertedJudgeVotes = await db.insert(judgeVotes).values(newJudgesVotes).returning();
+		const insertedJudgeVotes = await db
+			.insert(judgeVotes)
+			.values(newJudgesVotes)
+			.returning()
+			.onConflictDoNothing();
 		console.log(`Seeded ${insertedJudgeVotes.length} judge votes`);
 	}
 
