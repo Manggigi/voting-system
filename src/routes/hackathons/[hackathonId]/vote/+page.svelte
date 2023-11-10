@@ -24,7 +24,7 @@
 	<!-- select from list of teams -->
 	<input type="hidden" value={data.user?.id} name="user_id" />
 	<select name="team" id="team">
-		{#each data.hackathonTeams as team}
+		{#each data.hackathonTeams || [] as team}
 			<option value={team.id}>{team.id}: {team.name}</option>
 		{/each}
 	</select>
