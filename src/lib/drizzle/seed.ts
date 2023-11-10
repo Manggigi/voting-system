@@ -137,24 +137,25 @@ const newHackathonJudges: NewHackathonJudge[] = newHackathons.flatMap((hackathon
 	}));
 });
 
-const newUserVotes: NewUserVote[] = newHackathons.flatMap(() => {
-	return newHackathonParticipants.map((participant) => ({
+const newUserVotes: NewUserVote[] = newHackathons.flatMap((hackathon) => {
+	return newUsers.map((user) => ({
 		id: nanoid(),
-		hackathon_id: participant.hackathon_id,
-		user_id: participant.user_id,
+		hackathon_id: hackathon.id,
+		user_id: user.id,
 		hackathon_team_id: newHackathonTeams[Math.floor(Math.random() * newHackathonTeams.length)].id,
 		created_at: new Date()
 	}));
 });
 
-const newJudgesVotes: NewJudgeVote[] = newHackathonTeams.flatMap((team) => {
-	return newHackathonJudges.map((judge) => ({
+const newJudgeVotes: NewJudgeVote[] = newHackathonTeams.flatMap((team) => {
+	return judgeUsers.map((judge) => ({
 		id: nanoid(),
-		hackathon_id: judge.hackathon_id,
-		user_id: judge.user_id,
-		score: Math.floor(Math.random() * 25) + 1,
+		hackathon_id: team.hackathon_id,
+		user_id: judge.id,
+		score: Math.floor(Math.random() * 10) + 1 + 15,
 		comments: 'This is a comment',
-		hackathon_judge_id: judge.id,
+		hackathon_judge_id:
+			newHackathonJudges.find((newJudge) => judge.id === newJudge.user_id)?.id || '',
 		hackathon_team_id: team.id,
 		created_at: new Date()
 	}));
@@ -225,11 +226,13 @@ export async function seed() {
 	if (judgeVotesData.length === 0) {
 		const insertedJudgeVotes = await db
 			.insert(judgeVotes)
-			.values(newJudgesVotes)
+			.values(newJudgeVotes)
 			.returning()
 			.onConflictDoNothing();
 		console.log(`Seeded ${insertedJudgeVotes.length} judge votes`);
 	}
+
+	console.log(`No more seeding needed!`);
 
 	return {};
 }
