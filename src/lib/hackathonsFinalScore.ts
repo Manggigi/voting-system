@@ -1,4 +1,4 @@
-import type { UserVote } from '@types';
+import type { JudgeVote, UserVote } from '@types';
 import {
 	getTeamsByHackathonId,
 	getJudgeVotesByHackathonId,
@@ -7,11 +7,11 @@ import {
 	getAlltUserVotesInHackathon
 } from './hackathons';
 
-export const getFinalTeamScore = async (hackathonId: number) => {
+export const getFinalTeamScore = async (hackathonId: string) => {
 	console.log('🚀 ~ file: hackathons.ts:11 ~ getFinalTeamScore ~ hackathonId:', hackathonId);
 
 	const teamData = await getTeamsByHackathonId(hackathonId);
-	let teamIdBuffer: number | undefined = undefined;
+	let teamIdBuffer;
 	let userVotesDataBuffer: UserVote[] = [];
 	const y = await getAlltUserVotesInHackathon(hackathonId);
 	const numberOfCommunityVoters = y.length;
@@ -22,9 +22,9 @@ export const getFinalTeamScore = async (hackathonId: number) => {
 	const judgeWeight = 80;
 	const maxScorePerJudge = 25;
 	let judgeVotesDataBuffer: number;
-	let judgeVotesData = [];
+	let judgeVotesData: JudgeVote[] = [];
 
-	const scoreData = [];
+	const scoreData: any = [];
 	for (let i = 0; i < teamData.length; i++) {
 		if (teamData[i].hackathon_teams) {
 			teamIdBuffer = teamData[i].hackathon_teams?.id;
