@@ -54,7 +54,7 @@ export const getAlltUserVotesInHackathon = async (hackathonId: number) => {
 		.from(userVotes)
 		.where(eq(userVotes.hackathon_id, hackathonId));
 	return userVoteData;
-}
+};
 
 export const getTeamsByHackathonId = async (hackathonId: number) => {
 	const teamData = await db
@@ -81,6 +81,11 @@ export const getUserVotesByHackathonId = async (hackathonId: number, hackathonTe
 
 export const createJudgeVote = async (judgeVoteData: NewJudgeVote) => {
 	await db.insert(judgeVotes).values(judgeVoteData).execute();
+};
+
+export const getHackathonJudges = async () => {
+	const judges = await db.select().from(hackathonJudges);
+	return judges;
 };
 
 export const getJudgeVotesByHackathonId = async (hackathonId: number, hackathonTeam: number) => {
