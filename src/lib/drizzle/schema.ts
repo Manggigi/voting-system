@@ -3,7 +3,6 @@ import {
 	integer,
 	pgEnum,
 	pgTable,
-	serial,
 	text,
 	timestamp,
 	uniqueIndex,
@@ -14,9 +13,7 @@ import {
 export const users = pgTable(
 	'users',
 	{
-		id: varchar('id', {
-			length: 15
-		}).primaryKey(),
+		id: varchar('id', { length: 255 }).primaryKey(),
 		name: text('name').notNull(),
 		username: text('username').notNull(),
 		avatar: text('avatar').notNull(),
@@ -30,12 +27,8 @@ export const users = pgTable(
 );
 
 export const session = pgTable('user_session', {
-	id: varchar('id', {
-		length: 128
-	}).primaryKey(),
-	userId: varchar('user_id', {
-		length: 15
-	})
+	id: varchar('id', { length: 128 }).primaryKey(),
+	userId: varchar('user_id', { length: 255 })
 		.notNull()
 		.references(() => users.id),
 	activeExpires: bigint('active_expires', {
@@ -47,12 +40,8 @@ export const session = pgTable('user_session', {
 });
 
 export const key = pgTable('user_key', {
-	id: varchar('id', {
-		length: 255
-	}).primaryKey(),
-	userId: varchar('user_id', {
-		length: 15
-	})
+	id: varchar('id', { length: 255 }).primaryKey(),
+	userId: varchar('user_id', { length: 255 })
 		.notNull()
 		.references(() => users.id),
 	hashedPassword: text('hashed_password')
@@ -63,7 +52,7 @@ export const statusEnum = pgEnum('status', ['NEW', 'COMPLETED', 'CANCELLED']);
 export const hackathons = pgTable(
 	'hackathons',
 	{
-		id: serial('id').primaryKey(),
+		id: varchar('id', { length: 255 }).primaryKey(),
 		name: text('name').notNull(),
 		description: text('description').notNull(),
 		status: statusEnum('status').notNull(),
@@ -80,72 +69,66 @@ export const hackathons = pgTable(
 );
 
 export const hackathonTeams = pgTable('hackathon_teams', {
-	id: serial('id').primaryKey(),
+	id: varchar('id', { length: 255 }).primaryKey(),
 	name: text('name').notNull(),
-	hackathon_id: integer('hackathon_id')
+	hackathon_id: varchar('hackathon_id', { length: 255 })
 		.notNull()
 		.references(() => hackathons.id)
 });
 
 export const hackathonParticipants = pgTable('hackathon_participants', {
-	id: serial('id').primaryKey(),
-	hackathon_team_id: integer('hackathon_team_id')
+	id: varchar('id', { length: 255 }).primaryKey(),
+	hackathon_team_id: varchar('hackathon_team_id', { length: 255 })
 		.notNull()
 		.references(() => hackathonTeams.id),
-	hackathon_id: integer('hackathon_id')
+	hackathon_id: varchar('hackathon_id', { length: 255 })
 		.notNull()
 		.references(() => hackathons.id),
 	user_id: varchar('user_id', {
-		length: 15
+		length: 255
 	})
 		.notNull()
 		.references(() => users.id)
 });
 
 export const hackathonJudges = pgTable('hackathon_judges', {
-	id: serial('id').primaryKey(),
-	hackathon_id: integer('hackathon_id')
+	id: varchar('id', { length: 255 }).primaryKey(),
+	hackathon_id: varchar('hackathon_id', { length: 255 })
 		.notNull()
 		.references(() => hackathons.id),
-	user_id: varchar('user_id', {
-		length: 15
-	})
+	user_id: varchar('user_id', { length: 255 })
 		.notNull()
 		.references(() => users.id)
 });
 
 export const userVotes = pgTable('user_votes', {
-	id: serial('id').primaryKey(),
-	hackathon_id: integer('hackathon_id')
+	id: varchar('id', { length: 255 }).primaryKey(),
+	hackathon_id: varchar('hackathon_id', { length: 255 })
 		.notNull()
 		.references(() => hackathons.id),
-	hackathon_team_id: integer('hackathon_team_id')
+	hackathon_team_id: varchar('hackathon_team_id', { length: 255 })
 		.notNull()
 		.references(() => hackathonTeams.id),
-	user_id: varchar('user_id', {
-		length: 15
-	})
+	user_id: varchar('user_id', { length: 255 })
 		.notNull()
 		.references(() => users.id),
 	created_at: timestamp('created_at').defaultNow().notNull()
 });
 
 export const judgeVotes = pgTable('judge_votes', {
-	id: serial('id').primaryKey(),
+	id: varchar('id', { length: 255 }).primaryKey(),
 	score: integer('score').notNull(),
 	comments: text('comments').notNull(),
-	hackathon_judge_id: integer('hackathon_judge_id')
+	hackathon_judge_id: varchar('hackathon_judge_id', { length: 255 })
 		.notNull()
 		.references(() => hackathonJudges.id),
-	hackathon_id: integer('hackathon_id')
+	hackathon_id: varchar('hackathon_id', { length: 255 })
 		.notNull()
 		.references(() => hackathons.id),
-	hackathon_team_id: integer('hackathon_team_id')
+	hackathon_team_id: varchar('hackathon_team_id', { length: 255 })
 		.notNull()
 		.references(() => hackathonTeams.id),
-	user_id: varchar('user_id', {
-		length: 15
-	})
+	user_id: varchar('user_id', { length: 255 })
 		.notNull()
 		.references(() => users.id),
 	created_at: timestamp('created_at').defaultNow().notNull()

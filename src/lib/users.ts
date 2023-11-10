@@ -18,8 +18,12 @@ export const getUserById = async (idParameter: string) => {
 };
 
 export const getUserByUsername = async (username: string) => {
-	const usersData = await db.select().from(users).where(eq(users.id, username));
+	const usersData = await db.select().from(users).where(eq(users.username, username));
 	return usersData[0];
+};
+
+export const updateUserByUsername = async (username: string, userData: NewUser) => {
+	await db.update(users).set(userData).where(eq(users.username, username));
 };
 
 export const getJudges = async () => {

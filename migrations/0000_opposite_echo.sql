@@ -5,26 +5,26 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "hackathon_judges" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"hackathon_id" integer NOT NULL,
-	"user_id" varchar(15) NOT NULL
+	"id" varchar(255) PRIMARY KEY NOT NULL,
+	"hackathon_id" varchar(255) NOT NULL,
+	"user_id" varchar(255) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "hackathon_participants" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"hackathon_team_id" integer NOT NULL,
-	"hackathon_id" integer NOT NULL,
-	"user_id" varchar(15) NOT NULL
+	"id" varchar(255) PRIMARY KEY NOT NULL,
+	"hackathon_team_id" varchar(255) NOT NULL,
+	"hackathon_id" varchar(255) NOT NULL,
+	"user_id" varchar(255) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "hackathon_teams" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" varchar(255) PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
-	"hackathon_id" integer NOT NULL
+	"hackathon_id" varchar(255) NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "hackathons" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" varchar(255) PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"description" text NOT NULL,
 	"status" "status" NOT NULL,
@@ -35,39 +35,39 @@ CREATE TABLE IF NOT EXISTS "hackathons" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "judge_votes" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" varchar(255) PRIMARY KEY NOT NULL,
 	"score" integer NOT NULL,
 	"comments" text NOT NULL,
-	"hackathon_judge_id" integer NOT NULL,
-	"hackathon_id" integer NOT NULL,
-	"hackathon_team_id" integer NOT NULL,
-	"user_id" varchar(15) NOT NULL,
+	"hackathon_judge_id" varchar(255) NOT NULL,
+	"hackathon_id" varchar(255) NOT NULL,
+	"hackathon_team_id" varchar(255) NOT NULL,
+	"user_id" varchar(255) NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user_key" (
 	"id" varchar(255) PRIMARY KEY NOT NULL,
-	"user_id" varchar(15) NOT NULL,
+	"user_id" varchar(255) NOT NULL,
 	"hashed_password" text
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user_session" (
 	"id" varchar(128) PRIMARY KEY NOT NULL,
-	"user_id" varchar(15) NOT NULL,
+	"user_id" varchar(255) NOT NULL,
 	"active_expires" bigint NOT NULL,
 	"idle_expires" bigint NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "user_votes" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"hackathon_id" integer NOT NULL,
-	"hackathon_team_id" integer NOT NULL,
-	"user_id" varchar(15) NOT NULL,
+	"id" varchar(255) PRIMARY KEY NOT NULL,
+	"hackathon_id" varchar(255) NOT NULL,
+	"hackathon_team_id" varchar(255) NOT NULL,
+	"user_id" varchar(255) NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
-	"id" varchar(15) PRIMARY KEY NOT NULL,
+	"id" varchar(255) PRIMARY KEY NOT NULL,
 	"name" text NOT NULL,
 	"username" text NOT NULL,
 	"avatar" text NOT NULL,

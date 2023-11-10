@@ -1,29 +1,178 @@
 import { db } from '$lib/drizzle';
-import { hackathonTeams, hackathons } from './schema';
+import {
+	hackathonJudges,
+	hackathonParticipants,
+	hackathonTeams,
+	hackathons,
+	judgeVotes,
+	userVotes,
+	users
+} from './schema';
+import type {
+	Hackathon,
+	NewHackathonJudge,
+	NewHackathonParticipant,
+	NewHackathonTeam,
+	NewJudgeVote,
+	NewUser,
+	NewUserVote,
+	User
+} from '@types';
+import { nanoid } from 'nanoid';
 
-import newHackathonTeams from '$lib/data/newHackathonTeams.json';
-import newHackathons from '$lib/data/newHackathons.json';
-// import newUsers from '$lib/data/newUsers.json';
-import type { Hackathon } from '@types';
+const usersList = [
+	'andite',
+	'toney010319',
+	'BadPapi',
+	'HOTDOG',
+	'angry_talong',
+	'DDruan19',
+	'dembahhhhh',
+	'matchu',
+	'Luffy',
+	'Benar',
+	'FluffyBuddy',
+	'Oshi',
+	'Akini',
+	'krispi_cream',
+	'erika',
+	'shelledfish',
+	'getgian',
+	'thermo_ecs',
+	'asbeelzebub',
+	'dev.enigma',
+	'logorhythm',
+	'delulu',
+	'Boybeee',
+	'MacAngel23',
+	'Annie'
+];
+
+const userBuilder = (user: string) => ({
+	id: nanoid(),
+	username: user,
+	name: user,
+	avatar: 'https://www.redditstatic.com/avatars/defaults/v2/avatar_default_1.png',
+	created_at: new Date()
+});
+const newUsers: NewUser[] = usersList.map((user) => userBuilder(user));
+
+const newHackathons: Hackathon[] = [
+	{
+		id: nanoid(),
+		name: 'Daedalus Hackathon - Season 1',
+		description:
+			'Hackathon Voting System. A squad is composed of 3-5 members. Squad composition is carefully selected by the judging committee based on each individual’s skill level. Choose your Squad Lead/Captain! Have fun!',
+		status: 'COMPLETED',
+		created_at: new Date(),
+		updated_at: new Date(),
+		start_date: new Date('10-12-2023'),
+		end_date: new Date('10-13-2023')
+	},
+	{
+		id: nanoid(),
+		name: 'Daedalus Hackathon - Season 2',
+		description:
+			'Hackathon Voting System. A squad is composed of 3-5 members. Squad composition is carefully selected by the judging committee based on each individual’s skill level. Choose your Squad Lead/Captain! Have fun!',
+		status: 'NEW',
+		created_at: new Date(),
+		updated_at: new Date(),
+		start_date: new Date('11-12-2023'),
+		end_date: new Date('11-13-2023')
+	},
+	{
+		id: nanoid(),
+		name: 'Daedalus Hackathon - Season 3',
+		description:
+			'Hackathon Voting System. A squad is composed of 3-5 members. Squad composition is carefully selected by the judging committee based on each individual’s skill level. Choose your Squad Lead/Captain! Have fun!',
+		status: 'NEW',
+		created_at: new Date(),
+		updated_at: new Date(),
+		start_date: new Date('12-12-2023'),
+		end_date: new Date('12-13-2023')
+	}
+];
+
+const teams = ['ReactPressPHP', 'CastAway', 'Team Chibog', 'MAPEH', "D'Rocketeers🚀"];
+
+const newHackathonTeams: NewHackathonTeam[] = newHackathons.flatMap((hackathon) => {
+	return teams.map((team) => ({
+		id: nanoid(),
+		name: team,
+		hackathon_id: hackathon.id
+	}));
+});
+
+const newHackathonParticipants: NewHackathonParticipant[] = newHackathons.flatMap((hackathon) => {
+	return newUsers.map((user, i) => {
+		let teamIndex = 0;
+		if (i < 5) {
+			teamIndex = 0;
+		} else if (i < 10) {
+			teamIndex = 1;
+		} else if (i < 15) {
+			teamIndex = 2;
+		} else if (i < 20) {
+			teamIndex = 3;
+		} else {
+			teamIndex = 4;
+		}
+		return {
+			id: nanoid(),
+			hackathon_id: hackathon.id,
+			user_id: user.id,
+			hackathon_team_id: newHackathonTeams[teamIndex].id
+		};
+	});
+});
+
+const judgesList = ['directormac', 'mjrolex', 'jesymn'];
+const judgeUsers: NewUser[] = judgesList.map((user) => userBuilder(user));
+
+const newHackathonJudges: NewHackathonJudge[] = newHackathons.flatMap((hackathon) => {
+	return judgeUsers.map((judge) => ({
+		id: nanoid(),
+		hackathon_id: hackathon.id,
+		user_id: judge.id
+	}));
+});
+
+const newUserVotes: NewUserVote[] = newHackathons.flatMap(() => {
+	return newHackathonParticipants.map((participant) => ({
+		id: nanoid(),
+		hackathon_id: participant.hackathon_id,
+		user_id: participant.user_id,
+		hackathon_team_id: newHackathonTeams[Math.floor(Math.random() * newHackathonTeams.length)].id,
+		created_at: new Date()
+	}));
+});
+
+const newJudgesVotes: NewJudgeVote[] = newHackathonTeams.flatMap((team) => {
+	return newHackathonJudges.map((judge) => ({
+		id: nanoid(),
+		hackathon_id: judge.hackathon_id,
+		user_id: judge.user_id,
+		score: Math.floor(Math.random() * 25) + 1,
+		comments: 'This is a comment',
+		hackathon_judge_id: judge.id,
+		hackathon_team_id: team.id,
+		created_at: new Date()
+	}));
+});
 
 export async function seed() {
-	// Create table with raw SQL
-
-	// const usersData = await db.select().from(users);
-	// if (usersData.length === 0) {
-	// 	const insertedUsers: User[] = await db.insert(users).values([]).returning();
-	// 	console.log(`Seeded ${insertedUsers.length} users`);
-	// }
+	const usersData = await db.select().from(users);
+	if (usersData.length === 0) {
+		const insertedUsers: User[] = await db
+			.insert(users)
+			.values([...newUsers, ...judgeUsers])
+			.returning();
+		console.log(`Seeded ${insertedUsers.length} users`);
+	}
 
 	const hackathonsData = await db.select().from(hackathons);
 	if (hackathonsData.length === 0) {
-		const newHackathodsData = newHackathons.map((hackathon) => ({
-			...hackathon,
-
-			start_date: new Date(2023, 10, 11),
-			end_date: new Date(2023, 10, 12)
-		})) as Hackathon[];
-		const insertedHackathons = await db.insert(hackathons).values(newHackathodsData).returning();
+		const insertedHackathons = await db.insert(hackathons).values(newHackathons).returning();
 		console.log(`Seeded ${insertedHackathons.length} hackathons`);
 	}
 
@@ -36,15 +185,35 @@ export async function seed() {
 		console.log(`Seeded ${insertedHackathonTeams.length} hackathon teams`);
 	}
 
-	// // seed all usernames
-	// const hackathonParticipantsData = await db.select().from(hackathonParticipants);
-	// if (hackathonParticipantsData.length === 0) {
-	// 	const insertedHackathonParticipants = await db
-	// 		.insert(hackathonParticipants)
-	// 		.values([])
-	// 		.returning();
-	// 	console.log(`Seeded ${insertedHackathonParticipants.length} hackathon participants`);
-	// }
+	const hackathonParticipantsData = await db.select().from(hackathonParticipants);
+	if (hackathonParticipantsData.length === 0) {
+		const insertedHackathonParticipants = await db
+			.insert(hackathonParticipants)
+			.values(newHackathonParticipants)
+			.returning();
+		console.log(`Seeded ${insertedHackathonParticipants.length} hackathon participants`);
+	}
+
+	const hackathonJudgesData = await db.select().from(hackathonJudges);
+	if (hackathonJudgesData.length === 0) {
+		const insertedHackathonJudges = await db
+			.insert(hackathonJudges)
+			.values(newHackathonJudges)
+			.returning();
+		console.log(`Seeded ${insertedHackathonJudges.length} hackathon judges`);
+	}
+
+	const userVotesData = await db.select().from(userVotes);
+	if (userVotesData.length === 0) {
+		const insertedUserVotes = await db.insert(userVotes).values(newUserVotes).returning();
+		console.log(`Seeded ${insertedUserVotes.length} user votes`);
+	}
+
+	const judgeVotesData = await db.select().from(judgeVotes);
+	if (judgeVotesData.length === 0) {
+		const insertedJudgeVotes = await db.insert(judgeVotes).values(newJudgesVotes).returning();
+		console.log(`Seeded ${insertedJudgeVotes.length} judge votes`);
+	}
 
 	return {};
 }
