@@ -10,7 +10,7 @@
 	let isJudge = false;
 </script>
 
-<h2 class="h2 mb-12">{data.hackathon?.name}</h2>
+<h2 class="h2 mt-6 mb-12">{data.hackathon?.name}</h2>
 {#if !isJudge}
 	<form
 		method="post"
