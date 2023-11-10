@@ -18,11 +18,11 @@ export const getHackathons = async () => {
 	return hackathonsData;
 };
 
-export const getHackathonById = async (hackathonId: number) => {
+export const getHackathonById = async (hackathonId: string) => {
 	const hackathonData = await db
 		.select()
 		.from(hackathons)
-		.where(eq(hackathons.id, hackathonId));
+		.where(eq(hackathons.id, parseInt(hackathonId)));
 	return hackathonData[0];
 };
 
