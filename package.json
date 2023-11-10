@@ -60,6 +60,7 @@
 		"@lucia-auth/adapter-postgresql": "^2.0.2",
 		"@lucia-auth/oauth": "^3.4.0",
 		"@vercel/postgres": "^0.5.1",
+		"dayjs": "^1.11.8",
 		"decode-formdata": "^0.3.0",
 		"lucia": "^2.7.3",
 		"ms": "^2.1.3",
