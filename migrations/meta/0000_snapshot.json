@@ -1,7 +1,7 @@
 {
 	"version": "5",
 	"dialect": "pg",
-	"id": "35a422f9-c4f5-4f7d-aa9d-17d3f86b6109",
+	"id": "5c7b509b-f99e-4186-989f-10162eb97afd",
 	"prevId": "00000000-0000-0000-0000-000000000000",
 	"tables": {
 		"hackathon_judges": {
@@ -10,19 +10,19 @@
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "varchar(255)",
 					"primaryKey": true,
 					"notNull": true
 				},
 				"hackathon_id": {
 					"name": "hackathon_id",
-					"type": "integer",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "varchar(15)",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				}
@@ -57,25 +57,25 @@
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "varchar(255)",
 					"primaryKey": true,
 					"notNull": true
 				},
 				"hackathon_team_id": {
 					"name": "hackathon_team_id",
-					"type": "integer",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
 				"hackathon_id": {
 					"name": "hackathon_id",
-					"type": "integer",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "varchar(15)",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				}
@@ -119,7 +119,7 @@
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "varchar(255)",
 					"primaryKey": true,
 					"notNull": true
 				},
@@ -131,7 +131,7 @@
 				},
 				"hackathon_id": {
 					"name": "hackathon_id",
-					"type": "integer",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				}
@@ -157,7 +157,7 @@
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "varchar(255)",
 					"primaryKey": true,
 					"notNull": true
 				},
@@ -223,7 +223,7 @@
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "varchar(255)",
 					"primaryKey": true,
 					"notNull": true
 				},
@@ -241,25 +241,25 @@
 				},
 				"hackathon_judge_id": {
 					"name": "hackathon_judge_id",
-					"type": "integer",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
 				"hackathon_id": {
 					"name": "hackathon_id",
-					"type": "integer",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
 				"hackathon_team_id": {
 					"name": "hackathon_team_id",
-					"type": "integer",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "varchar(15)",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
@@ -325,7 +325,7 @@
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "varchar(15)",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
@@ -363,7 +363,7 @@
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "varchar(15)",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
@@ -401,25 +401,25 @@
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "serial",
+					"type": "varchar(255)",
 					"primaryKey": true,
 					"notNull": true
 				},
 				"hackathon_id": {
 					"name": "hackathon_id",
-					"type": "integer",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
 				"hackathon_team_id": {
 					"name": "hackathon_team_id",
-					"type": "integer",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
 				"user_id": {
 					"name": "user_id",
-					"type": "varchar(15)",
+					"type": "varchar(255)",
 					"primaryKey": false,
 					"notNull": true
 				},
@@ -470,7 +470,7 @@
 			"columns": {
 				"id": {
 					"name": "id",
-					"type": "varchar(15)",
+					"type": "varchar(255)",
 					"primaryKey": true,
 					"notNull": true
 				},

@@ -7,7 +7,7 @@
 	dayjs.extend(utc);
 	dayjs.extend(tz);
 
-	export let deadline: Date = new Date('11-12-2023');
+	export let deadline: Date;
 
 	let countdown = '000';
 

@@ -24,24 +24,21 @@
 				<div class="hidden sm:ml-6 sm:block">
 					<div class="flex space-x-4">
 						<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-						<a
-							href={routes.home}
-							class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Home</a
-						>
+						<a href={routes.home} class="btn variant-soft-secondary">Home</a>
 						{#if isLoggedIn}
 							<a
 								href={routes.hackathon.base}
-								class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+								class="btn text-[rgb(var(--color-secondary-200))] hover:variant-soft-surface"
 								>Hackathons</a
 							>
 							<a
 								href={routes.teams.base}
-								class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+								class="btn text-[rgb(var(--color-secondary-200))] hover:variant-soft-surface"
 								>Teams</a
 							>
 							<a
 								href={routes.judges.base}
-								class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+								class="btn text-[rgb(var(--color-secondary-200))] hover:variant-soft-surface"
 								>Judges</a
 							>
 						{/if}
@@ -50,28 +47,6 @@
 			</div>
 			<div class="hidden sm:ml-6 sm:block">
 				<div class="flex items-center space-x-4">
-					<button
-						type="button"
-						class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-					>
-						<span class="absolute -inset-1.5" />
-						<span class="sr-only">View notifications</span>
-						<svg
-							class="h-6 w-6"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							aria-hidden="true"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
-							/>
-						</svg>
-					</button>
-
 					<!-- Profile dropdown -->
 					{#if isLoggedIn}
 						<div class="relative ml-3">

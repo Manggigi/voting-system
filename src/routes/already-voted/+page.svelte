@@ -2,4 +2,4 @@
 	export let data;
 </script>
 
-<h1 class="h1">already voted</h1>
+<h3 class="h3 text-center mt-12">You have already casted your vote</h3>

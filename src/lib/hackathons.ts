@@ -1,16 +1,24 @@
+import type {
+	NewHackathon,
+	NewHackathonJudge,
+	NewHackathonParticipant,
+	NewHackathonTeam,
+	NewJudgeVote,
+	NewUserVote
+} from '@types';
 import { and, eq } from 'drizzle-orm';
 import { db } from './drizzle';
 import {
 	hackathonJudges,
+	hackathonParticipants,
 	hackathonTeams,
 	hackathons,
 	judgeVotes,
 	userVotes
 } from './drizzle/schema';
-import type { NewHackathon, NewHackathonTeam, NewJudgeVote, NewUserVote } from '@types';
 
 export const createHackathon = async (hackathonData: NewHackathon) => {
-	await db.insert(hackathons).values(hackathonData).execute();
+	await db.insert(hackathons).values(hackathonData).onConflictDoNothing().execute();
 };
 
 export const getHackathons = async () => {
@@ -19,15 +27,12 @@ export const getHackathons = async () => {
 };
 
 export const getHackathonById = async (hackathonId: string) => {
-	const hackathonData = await db
-		.select()
-		.from(hackathons)
-		.where(eq(hackathons.id, parseInt(hackathonId)));
+	const hackathonData = await db.select().from(hackathons).where(eq(hackathons.id, hackathonId));
 	return hackathonData[0];
 };
 
 export const createTeam = async (teamData: NewHackathonTeam) => {
-	await db.insert(hackathonTeams).values(teamData).execute();
+	await db.insert(hackathonTeams).values(teamData).onConflictDoNothing().execute();
 };
 
 export const getUserVoteByUserId = async (userId: string) => {
@@ -40,7 +45,15 @@ export const getHackathonTeams = async () => {
 	return hackathonTeamsData;
 };
 
-export const getJudgesByHackathonId = async (hackathonId: number) => {
+export const getHackathonTeamsByHackathonId = async (hackathonId: string) => {
+	const hackathonTeamsData = await db
+		.select()
+		.from(hackathonTeams)
+		.where(eq(hackathonTeams.hackathon_id, hackathonId));
+	return hackathonTeamsData;
+};
+
+export const getJudgesByHackathonId = async (hackathonId: string) => {
 	const hackathonJudgesData = await db
 		.select()
 		.from(hackathonJudges)
@@ -48,7 +61,7 @@ export const getJudgesByHackathonId = async (hackathonId: number) => {
 	return hackathonJudgesData;
 };
 
-export const getAlltUserVotesInHackathon = async (hackathonId: number) => {
+export const getAlltUserVotesInHackathon = async (hackathonId: string) => {
 	const userVoteData = await db
 		.select()
 		.from(userVotes)
@@ -56,7 +69,7 @@ export const getAlltUserVotesInHackathon = async (hackathonId: number) => {
 	return userVoteData;
 };
 
-export const getTeamsByHackathonId = async (hackathonId: number) => {
+export const getTeamsByHackathonId = async (hackathonId: string) => {
 	const teamData = await db
 		.select()
 		.from(hackathonTeams)
@@ -66,21 +79,21 @@ export const getTeamsByHackathonId = async (hackathonId: number) => {
 };
 
 export const createUserVote = async (userVoteData: NewUserVote) => {
-	await db.insert(userVotes).values(userVoteData).execute();
+	await db.insert(userVotes).values(userVoteData).onConflictDoNothing().execute();
 };
 
-export const getUserVotesByHackathonId = async (hackathonId: number, hackathonTeam: number) => {
+export const getUserVotesByHackathonId = async (hackathonId: string, hackathonTeamId: string) => {
 	const userVoteData = await db
 		.select()
 		.from(userVotes)
 		.where(
-			and(eq(userVotes.hackathon_id, hackathonId), eq(userVotes.hackathon_team_id, hackathonTeam))
+			and(eq(userVotes.hackathon_id, hackathonId), eq(userVotes.hackathon_team_id, hackathonTeamId))
 		);
 	return userVoteData;
 };
 
 export const createJudgeVote = async (judgeVoteData: NewJudgeVote) => {
-	await db.insert(judgeVotes).values(judgeVoteData).execute();
+	await db.insert(judgeVotes).values(judgeVoteData).onConflictDoNothing().execute();
 };
 
 export const getHackathonJudges = async () => {
@@ -88,12 +101,29 @@ export const getHackathonJudges = async () => {
 	return judges;
 };
 
-export const getJudgeVotesByHackathonId = async (hackathonId: number, hackathonTeam: number) => {
+export const getJudgeVotesByHackathonId = async (hackathonId: string, hackathonTeamId: string) => {
 	const judgeVotesData = await db
 		.select()
 		.from(judgeVotes)
 		.where(
-			and(eq(judgeVotes.hackathon_id, hackathonId), eq(judgeVotes.hackathon_team_id, hackathonTeam))
+			and(
+				eq(judgeVotes.hackathon_id, hackathonId),
+				eq(judgeVotes.hackathon_team_id, hackathonTeamId)
+			)
 		);
 	return judgeVotesData;
+};
+
+export const createHackathonParticipant = async (
+	hackathonParticipantData: NewHackathonParticipant
+) => {
+	await db
+		.insert(hackathonParticipants)
+		.values(hackathonParticipantData)
+		.onConflictDoNothing()
+		.execute();
+};
+
+export const createHackathonJudge = async (hackathonJudgeData: NewHackathonJudge) => {
+	await db.insert(hackathonJudges).values(hackathonJudgeData).onConflictDoNothing().execute();
 };

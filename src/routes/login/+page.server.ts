@@ -1,5 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 
-export const load = async () => {
-	throw redirect(307, '/login/discord');
+export const load = async ({ locals }) => {
+	if (locals.user) {
+		throw redirect(307, '/');
+	}
 };

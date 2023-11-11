@@ -2,6 +2,16 @@
 	{
 		"name": "Daedalus Hackathon - Season 1",
 		"description": "Hackathon Voting System. A squad is composed of 3-5 members. Squad composition is carefully selected by the judging committee based on each individual’s skill level. Choose your Squad Lead/Captain! Have fun!",
+		"status": "COMPLETED"
+	},
+	{
+		"name": "Daedalus Hackathon - Season 2",
+		"description": "Hackathon Voting System. A squad is composed of 3-5 members. Squad composition is carefully selected by the judging committee based on each individual’s skill level. Choose your Squad Lead/Captain! Have fun!",
+		"status": "NEW"
+	},
+	{
+		"name": "Daedalus Hackathon - Season 3",
+		"description": "Hackathon Voting System. A squad is composed of 3-5 members. Squad composition is carefully selected by the judging committee based on each individual’s skill level. Choose your Squad Lead/Captain! Have fun!",
 		"status": "NEW"
 	}
 ]
