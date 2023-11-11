@@ -101,6 +101,14 @@ export const getHackathonJudges = async () => {
 	return judges;
 };
 
+export const getHackathonJudgesByHackathonId = async (hackathonId: string) => {
+	const judges = await db
+		.select()
+		.from(hackathonJudges)
+		.where(eq(hackathonJudges.hackathon_id, hackathonId));
+	return judges;
+};
+
 export const getJudgeVotesByHackathonId = async (hackathonId: string, hackathonTeamId: string) => {
 	const judgeVotesData = await db
 		.select()
