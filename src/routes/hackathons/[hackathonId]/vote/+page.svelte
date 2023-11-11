@@ -7,6 +7,8 @@
 	export let data;
 	let isSubmitting = false;
 	let valueSingle: string;
+
+	const judgeVotedTeams = data.judgeVotes?.map((vote) => vote.hackathon_team_id);
 </script>
 
 <h2 class="h2 mt-6 mb-12">{data.hackathon?.name}</h2>
@@ -58,6 +60,7 @@
 		<input type="hidden" value={data.user?.id} name="user_id" />
 		<select class="select" size={data.hackathonTeams?.length} name="team" id="team">
 			{#each data.hackathonTeams || [] as team}
+				<button disabled={judgeVotedTeams?.includes(team.id)}>{team.name}</button>
 				<option value={team.id}>{team.name}</option>
 			{/each}
 		</select>
