@@ -1,12 +1,8 @@
-import { redirect } from '@sveltejs/kit';
-import { auth, discordAuth } from '@server/lucia';
-import type { RequestHandler } from './$types';
-import { OAuthRequestError } from '@lucia-auth/oauth';
-// import participantsList from '$lib/data/whitelistedParticipants.json';
-// import judgesList from '$lib/data/whitelistedJudges.json';
-// import { createHackathonJudge, createHackathonParticipant } from '$lib/hackathons';
 import { getUserByUsername, updateUserByUsername } from '$lib/users';
-// import { nanoid } from 'nanoid';
+import { OAuthRequestError } from '@lucia-auth/oauth';
+import { auth, discordAuth } from '@server/lucia';
+import { redirect } from '@sveltejs/kit';
+import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ cookies, url, locals }) => {
 	const error = url.searchParams.get('error');
@@ -44,7 +40,7 @@ export const GET: RequestHandler = async ({ cookies, url, locals }) => {
 					avatar
 				};
 				await updateUserByUsername(discordUser.username, newData);
-				const user = auth.transformDatabaseUser(existingDatabaseUserWithUsername);
+				const user = auth.transformDatabaseUser(newData);
 				await createKey(user.userId);
 				return user;
 			}
@@ -57,32 +53,6 @@ export const GET: RequestHandler = async ({ cookies, url, locals }) => {
 			};
 
 			const user = await createUser({ attributes: newUser });
-
-			// try {
-			// 	// TODO: create hackathonParticipant
-			// 	const participant = participantsList.find(
-			// 		(participant) => participant.username === discordUser.username
-			// 	);
-			// 	if (participant?.username) {
-			// 		await createHackathonParticipant({
-			// 			id: nanoid(),
-			// 			hackathon_id: participant.hackathon_id,
-			// 			hackathon_team_id: participant.hackathon_team_id,
-			// 			user_id: user.userId
-			// 		});
-			// 	}
-			// 	// TODO: create hackathonJudge
-			// 	const judge = judgesList.find((judge) => judge.username === discordUser.username);
-			// 	if (judge?.username) {
-			// 		await createHackathonJudge({
-			// 			id: nanoid(),
-			// 			hackathon_id: judge.hackathon_id,
-			// 			user_id: user.userId
-			// 		});
-			// 	}
-			// } catch (error) {
-			// 	console.log(error);
-			// }
 
 			return user;
 		};
