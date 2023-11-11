@@ -7,11 +7,11 @@
 	export let data;
 	let isSubmitting = false;
 	let valueSingle: string;
-	let isJudge = false;
 </script>
 
 <h2 class="h2 mt-6 mb-12">{data.hackathon?.name}</h2>
-{#if !isJudge}
+<!-- TODO: invert this isJudge after testing -->
+{#if data.isJudge}
 	<form
 		method="post"
 		use:enhance={({ formElement, formData, action, cancel, submitter }) => {
@@ -44,9 +44,7 @@
 		>
 	</form>
 {:else}
-	<form
-		method="post"
-		use:enhance={({ formElement, formData, action, cancel, submitter }) => {
+	<!-- method="post" use:enhance={({ formElement, formData, action, cancel, submitter }) => {
 			isSubmitting = true;
 			return async ({ result, update }) => {
 				// Your form submission logic here
@@ -54,8 +52,8 @@
 				goto(routes.thankYou);
 				// update(result);
 			};
-		}}
-	>
+		}} -->
+	<form>
 		<!-- select from list of teams -->
 		<input type="hidden" value={data.user?.id} name="user_id" />
 		<select class="select" size={data.hackathonTeams?.length} name="team" id="team">
