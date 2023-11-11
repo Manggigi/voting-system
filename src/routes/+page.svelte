@@ -32,7 +32,9 @@
 <div
 	class="md:h-screen bg-none md:bg-banner bg-no-repeat bg-cover object-right md:flex md:items-center"
 >
-	<div class="w-full md:w-[970px] text-white relative space-y-4 px-5 sm:px-[10%] mt-20">
+	<div
+		class="w-full md:w-[970px] -z-10 md:z-auto text-white relative space-y-4 px-5 sm:px-[10%] mt-20"
+	>
 		<img
 			src={whyFreedive}
 			alt="submit-video"
