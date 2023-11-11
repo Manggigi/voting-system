@@ -44,7 +44,7 @@ export const GET: RequestHandler = async ({ cookies, url, locals }) => {
 					avatar
 				};
 				await updateUserByUsername(discordUser.username, newData);
-				const user = auth.transformDatabaseUser(newData);
+				const user = auth.transformDatabaseUser(existingDatabaseUserWithUsername);
 				await createKey(user.userId);
 				return user;
 			}
