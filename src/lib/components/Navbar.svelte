@@ -15,7 +15,7 @@
 			<div class="flex items-center">
 				<div class="flex-shrink-0">
 					<!-- TODO: add logo here -->
-					<img class="h-8 w-auto" src="/favicon.webp" alt="Your Company" />
+					<img class="h-8 w-auto" src="/favicon.webp" alt="Daedalus" />
 				</div>
 				<div class="hidden sm:ml-6 sm:block">
 					<div class="flex space-x-4">
