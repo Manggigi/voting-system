@@ -132,6 +132,20 @@ export const createHackathonParticipant = async (
 		.execute();
 };
 
+export const getHackathonParticipantByUserId = async (userId: string, hackathonId: string) => {
+	const hackathonParticipantData = await db
+		.select()
+		.from(hackathonParticipants)
+		.where(
+			and(
+				eq(hackathonParticipants.user_id, userId),
+				eq(hackathonParticipants.hackathon_id, hackathonId)
+			)
+		);
+
+	return hackathonParticipantData[0];
+};
+
 export const createHackathonJudge = async (hackathonJudgeData: NewHackathonJudge) => {
 	await db.insert(hackathonJudges).values(hackathonJudgeData).onConflictDoNothing().execute();
 };
