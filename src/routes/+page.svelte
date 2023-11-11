@@ -29,7 +29,7 @@
 	};
 </script>
 
-<div
+<main
 	class="md:h-screen bg-none md:bg-banner bg-no-repeat bg-cover object-right md:flex md:items-center"
 >
 	<div
@@ -76,6 +76,4 @@
 			</button>
 		</div>
 	</div>
-</div>
-
-<!-- /hackathons/ibmzG4kJs2RzPbkKtjDXk -->
+</main>

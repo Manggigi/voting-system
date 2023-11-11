@@ -1,5 +1,7 @@
-<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-	<div class="mx-auto max-w-3xl">
-		<slot />
+<main class="min-h-screen pt-20 bg-white">
+	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+		<div class="mx-auto max-w-3xl">
+			<slot />
+		</div>
 	</div>
-</div>
+</main>
