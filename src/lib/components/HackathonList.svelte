@@ -13,7 +13,10 @@
 				<div class="flex items-start gap-x-3">
 					<p class="text-sm font-semibold leading-6 text-gray-900">{hackathon.name}</p>
 					<p
-						class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20"
+						class="rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset {hackathon.status ===
+						'COMPLETED'
+							? 'text-green-700 bg-green-50 ring-green-600/20'
+							: 'text-blue-700 bg-blue-50 ring-blue-600/20'} "
 					>
 						{hackathon.status}
 					</p>

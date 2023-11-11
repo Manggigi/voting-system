@@ -30,7 +30,7 @@
 	<p>Check back after the countdown timer's gone to zero!</p>
 	<p>Time before voting season ends: <CountdownTimer deadline={data.hackathon.end_date} /></p>
 {:else if currentTimeStamp > data.hackathon?.end_date}
-	<h1 class="h1">{data.hackathon?.name} is now over!</h1>
+	<h2 class="h2 mb-4">{data.hackathon?.name} is now over!</h2>
 	<div class="table-container text-white">
 		<table class="table table-hover">
 			<thead>

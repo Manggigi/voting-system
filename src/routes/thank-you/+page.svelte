@@ -2,8 +2,8 @@
 	export let data;
 </script>
 
-<div class="card p-4 text-center text-white">
-	<header class="card-header">Thank you for voting!</header>
+<div class="card mt-12 p-4 text-center text-white">
+	<header class="card-header h2">Thank you for voting!</header>
 	<section class="p-4">
 		<p class="mt-4">
 			You have successfully casted your vote for.<br />
