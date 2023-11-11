@@ -4,10 +4,11 @@ import {
 	getHackathonJudgesByHackathonId,
 	getHackathonParticipantByUserId,
 	getHackathonTeamsByHackathonId,
+	getJudgeVotesByUserId,
 	getUserVoteByUserId
 } from '$lib/hackathons';
 import { redirect } from '@sveltejs/kit';
-import type { NewUserVote } from '@types';
+import type { JudgeVote, NewUserVote } from '@types';
 import { nanoid } from 'nanoid';
 
 export async function load({ params, locals }) {
@@ -29,19 +30,23 @@ export async function load({ params, locals }) {
 	}
 
 	try {
+		let judgeVotes: JudgeVote[] = [];
 		const participant = await getHackathonParticipantByUserId(user.id, hackathonId);
 		const hackathonJudges = await getHackathonJudgesByHackathonId(hackathonId);
 		const isJudge = hackathonJudges.some((judge) => judge.user_id === user.id);
+		if (isJudge) {
+			judgeVotes = await getJudgeVotesByUserId(user.id, hackathonId);
+		}
 		const hackathonTeams = await getHackathonTeamsByHackathonId(hackathonId);
 		const hackathon = getHackathonById(hackathonId);
-		return { user, hackathonTeams, hackathon, isJudge, participant };
+		return { user, hackathonTeams, hackathon, isJudge, participant, judgeVotes };
 	} catch (e) {
 		console.log(e);
 	}
 }
 
 export const actions = {
-	default: async ({ request, params }) => {
+	userVote: async ({ request, params }) => {
 		const hackathonId = params.hackathonId;
 
 		const form = await request.formData();
