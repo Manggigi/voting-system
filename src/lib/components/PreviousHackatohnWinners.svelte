@@ -4,6 +4,7 @@
 		<table class="table table-hover">
 			<thead>
 				<tr>
+					<th>Season</th>
 					<th>Team Name</th>
 					<th>Community Votes</th>
 					<th>Judge Votes</th>
@@ -12,6 +13,7 @@
 			</thead>
 			<tbody>
 				<tr>
+					<td>1</td>
 					<td>Team Chibog</td>
 					<td>6</td>
 					<td>64</td>

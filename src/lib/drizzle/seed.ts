@@ -92,8 +92,9 @@ const newHackathons: Hackathon[] = [
 		end_date: new Date('12-13-2023')
 	}
 ];
-
-const teams = ['ReactPressPHP', 'CastAway', 'Team Chibog', 'MAPEH', "D'Rocketeers🚀"];
+// TODO: hack for now, but this should be dynamic
+// const teams = ['ReactPressPHP', 'CastAway', 'Team Chibog', 'MAPEH', "D'Rocketeers🚀"];
+const teams = ['Team Chibog', 'MAPEH', "D'Rocketeers🚀", 'ReactPressPHP', 'CastAway'];
 
 const newHackathonTeams: NewHackathonTeam[] = newHackathons.flatMap((hackathon) => {
 	return teams.map((team) => ({
@@ -104,24 +105,16 @@ const newHackathonTeams: NewHackathonTeam[] = newHackathons.flatMap((hackathon) 
 });
 
 const newHackathonParticipants: NewHackathonParticipant[] = newHackathons.flatMap((hackathon) => {
-	return newUsers.map((user, i) => {
-		let teamIndex = 0;
-		if (i < 5) {
-			teamIndex = 0;
-		} else if (i < 10) {
-			teamIndex = 1;
-		} else if (i < 15) {
-			teamIndex = 2;
-		} else if (i < 20) {
-			teamIndex = 3;
-		} else {
-			teamIndex = 4;
-		}
+	let teamsInThisHackathon = newHackathonTeams.filter((team) => team.hackathon_id === hackathon.id);
+	teamsInThisHackathon = teamsInThisHackathon.sort(
+		(a, b) => teams.indexOf(a.name) - teams.indexOf(b.name)
+	);
+	return newUsers.map((user, userIndex) => {
 		return {
 			id: nanoid(),
 			hackathon_id: hackathon.id,
 			user_id: user.id,
-			hackathon_team_id: newHackathonTeams[teamIndex].id
+			hackathon_team_id: teamsInThisHackathon[userIndex % teamsInThisHackathon.length].id
 		};
 	});
 });
@@ -137,7 +130,8 @@ const newHackathonJudges: NewHackathonJudge[] = newHackathons.flatMap((hackathon
 	}));
 });
 
-const newUserVotes: NewUserVote[] = newHackathons.flatMap((hackathon) => {
+const newUserVotes: NewUserVote[] = newHackathons.flatMap((hackathon, i) => {
+	if (i === 1) return []; // skip the second hackathon
 	const teamsInThisHackathon = newHackathonTeams.filter(
 		(team) => team.hackathon_id === hackathon.id
 	);

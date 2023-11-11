@@ -10,8 +10,8 @@
 </script>
 
 <h2 class="h2 mt-6 mb-12">{data.hackathon?.name}</h2>
-<!-- TODO: invert this isJudge after testing -->
-{#if data.isJudge}
+<!-- TODO: invert this isJudge for testing -->
+{#if !data.isJudge}
 	<form
 		method="post"
 		use:enhance={({ formElement, formData, action, cancel, submitter }) => {
@@ -31,7 +31,7 @@
 			active="variant-glass-secondary"
 			class="space-y-2 mb-4"
 		>
-			{#each data.hackathonTeams || [] as team}
+			{#each data.hackathonTeams?.filter((team) => team.id !== data.participant?.hackathon_team_id) || [] as team}
 				<ListBoxItem class="bg-slate-100 " bind:group={valueSingle} name="team" value={team.id}
 					>{team.name}</ListBoxItem
 				>

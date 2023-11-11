@@ -5,6 +5,6 @@
 </script>
 
 <div>
-	<h1 class="h3">full hackathon lists</h1>
+	<h1 class="h3">Hackathon lists</h1>
 	<HackathonList hackathons={data.hackathons} />
 </div>
