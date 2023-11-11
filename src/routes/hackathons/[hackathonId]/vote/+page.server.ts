@@ -1,11 +1,12 @@
-import type { NewUserVote } from '@types';
 import {
 	createUserVote,
 	getHackathonById,
+	getHackathonJudgesByHackathonId,
 	getHackathonTeamsByHackathonId,
 	getUserVoteByUserId
 } from '$lib/hackathons';
 import { redirect } from '@sveltejs/kit';
+import type { NewUserVote } from '@types';
 import { nanoid } from 'nanoid';
 
 export async function load({ params, locals }) {
@@ -27,9 +28,11 @@ export async function load({ params, locals }) {
 
 	const hackathonId = params.hackathonId;
 	try {
+		const hackathonJudges = await getHackathonJudgesByHackathonId(hackathonId);
+		const isJudge = hackathonJudges.some((judge) => judge.user_id === user.id);
 		const hackathonTeams = await getHackathonTeamsByHackathonId(hackathonId);
 		const hackathon = getHackathonById(hackathonId);
-		return { user, hackathonTeams, hackathon };
+		return { user, hackathonTeams, hackathon, isJudge };
 	} catch (e) {
 		console.log(e);
 	}
