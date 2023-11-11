@@ -15,11 +15,7 @@
 			<div class="flex items-center">
 				<div class="flex-shrink-0">
 					<!-- TODO: add logo here -->
-					<img
-						class="h-8 w-auto"
-						src="https://giandenorte.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Favatar.e7bd1e3b.webp&w=256&q=75"
-						alt="Your Company"
-					/>
+					<img class="h-8 w-auto" src="/favicon.webp" alt="Your Company" />
 				</div>
 				<div class="hidden sm:ml-6 sm:block">
 					<div class="flex space-x-4">
