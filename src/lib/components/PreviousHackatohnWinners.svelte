@@ -14,7 +14,7 @@
 			<tbody>
 				<tr>
 					<td>1</td>
-					<td>MAPEH</td>
+					<td>Team Chibog</td>
 					<td>6</td>
 					<td>64</td>
 					<td>73.27</td>
