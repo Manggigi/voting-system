@@ -11,13 +11,14 @@ import type { NewUserVote } from '@types';
 import { nanoid } from 'nanoid';
 
 export async function load({ params, locals }) {
+	const hackathonId = params.hackathonId;
 	const user = locals.user;
 	if (!user) throw redirect(307, '/login');
 
 	let userHasVoted = false;
 	if (user) {
 		try {
-			const userVote = await getUserVoteByUserId(user.id);
+			const userVote = await getUserVoteByUserId(user.id, hackathonId);
 			userHasVoted = !!userVote?.id;
 		} catch (e) {
 			console.log(e);
@@ -27,7 +28,6 @@ export async function load({ params, locals }) {
 		throw redirect(303, '/already-voted');
 	}
 
-	const hackathonId = params.hackathonId;
 	try {
 		const participant = await getHackathonParticipantByUserId(user.id, hackathonId);
 		const hackathonJudges = await getHackathonJudgesByHackathonId(hackathonId);
