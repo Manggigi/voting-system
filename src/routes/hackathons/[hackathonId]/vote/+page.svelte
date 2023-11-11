@@ -16,8 +16,8 @@
 	let formVisibility: boolean;
 	const changeTeamName = (id: number) => {
 		teamName = data.hackathonTeams && data.hackathonTeams[id] && data.hackathonTeams[id].name ? data.hackathonTeams[id].name: "Something went wrong. Please contact an administrator.";
-		modalRegistry.teamComponent.props.teamNameProp = teamName;
-		modalRegistry.teamComponent.props.formVisibilityProp = true
+		if (modalRegistry.teamComponent?.props?.teamNameProp) modalRegistry.teamComponent.props.teamNameProp = teamName;
+		if (modalRegistry.teamComponent?.props?.formVisibilityProp) modalRegistry.teamComponent.props.formVisibilityProp = true;
 		modalStore.trigger(modal);
 	}
 
@@ -33,12 +33,13 @@
 		type: 'component',
 		component: "teamComponent"
 	};
+	// data.isJudge = !data.isJudge; // Comment to retain normal logic. Uncomment to reverse.
 </script>
 <Modal components={modalRegistry} />
 
 <h2 class="h2 mt-6 mb-12">{data.hackathon?.name}</h2>
 <!-- TODO: invert this isJudge for testing -->
-{#if data.isJudge}
+{#if !data.isJudge}
 	<form
 		method="post"
 		use:enhance={({ formElement, formData, action, cancel, submitter }) => {
@@ -71,37 +72,13 @@
 		>
 	</form>
 <!-- TODO: invert this isJudge after testing -->
-{:else if !data.isJudge}
+{:else if data.isJudge}
 	<div>
 		{#each data.hackathonTeams || [] as team, i}
 			<div>
 				<h2>{team.name}</h2>
-				<button on:click={() => changeTeamName(i)}>Vote</button>
+				<button on:click={() => changeTeamName(i)}>Vote</button> <!-- Rename changeTeamName to something that suits the function better -->
 			</div>
 		{/each}
 	</div>
-{:else}
-	<!-- method="post" use:enhance={({ formElement, formData, action, cancel, submitter }) => {
-			isSubmitting = true;
-			return async ({ result, update }) => {
-				// Your form submission logic here
-				isSubmitting = false;
-				goto(routes.thankYou);
-				// update(result);
-			};
-		}} -->
-	<form>
-		<!-- select from list of teams -->
-		<input type="hidden" value={data.user?.id} name="user_id" />
-		<select class="select" size={data.hackathonTeams?.length} name="team" id="team">
-			{#each data.hackathonTeams || [] as team}
-				<option value={team.id}>{team.name}</option>
-			{/each}
-		</select>
-		<button
-			disabled={!data.user?.id || isSubmitting || !valueSingle}
-			class="btn btn-lg variant-filled-secondary w-full"
-			type="submit">{isSubmitting ? 'Submitting...' : 'Submit Vote'}</button
-		>
-	</form>
 {/if}
