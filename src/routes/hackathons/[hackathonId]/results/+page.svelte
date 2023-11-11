@@ -1,14 +1,16 @@
 <script lang="ts">
+	import CountdownTimer from '@components/CountdownTimer.svelte';
+
 	export let data;
 
-	// let currentTimeStamp = new Date(); // Uncomment to set date to today.
-	let currentTimeStamp = data.hackathon?.start_date!; // Uncomment to set date to hackathon day.
+	let currentTimeStamp = new Date(); // Uncomment to set date to today.
+	// let currentTimeStamp = data.hackathon?.start_date!; // Uncomment to set date to hackathon day.
 	let nextMonthTimeStamp = new Date();
 	nextMonthTimeStamp.setMonth(currentTimeStamp.getMonth() + 1);
-	currentTimeStamp = nextMonthTimeStamp; // Uncomment to set date to 1 month after now (basically the day after hackathon voting day). Must have a declaration uncommented.
-	let timeDifferenceInMilliseconds =
-		data.hackathon?.end_date.getTime()! - currentTimeStamp.getTime();
-	let countdownValue = timeDifferenceInMilliseconds;
+	// currentTimeStamp = nextMonthTimeStamp; // Uncomment to set date to 1 month after now (basically the day after hackathon voting day). Must have a declaration uncommented.
+	// let timeDifferenceInMilliseconds =
+	// 	data.hackathon?.end_date.getTime()! - currentTimeStamp.getTime();
+	// let countdownValue = timeDifferenceInMilliseconds;
 
 	let sortedData = data.finalScores?.scoreData.sort((a, b) => b.finalScore - a.finalScore) || [];
 </script>
@@ -26,7 +28,7 @@
 	<h1>{data.hackathon?.name}</h1>
 	<h2>It's Voting Time!</h2>
 	<p>Check back after the countdown timer's gone to zero!</p>
-	<p>Time before voting season ends: {countdownValue}</p>
+	<p>Time before voting season ends: <CountdownTimer deadline={data.hackathon.end_date} /></p>
 {:else if currentTimeStamp > data.hackathon?.end_date}
 	<h1 class="h1">{data.hackathon?.name} is now over!</h1>
 	<div class="table-container text-white">
