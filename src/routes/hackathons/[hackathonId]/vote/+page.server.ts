@@ -2,6 +2,7 @@ import {
 	createUserVote,
 	getHackathonById,
 	getHackathonJudgesByHackathonId,
+	getHackathonParticipantByUserId,
 	getHackathonTeamsByHackathonId,
 	getUserVoteByUserId
 } from '$lib/hackathons';
@@ -28,11 +29,12 @@ export async function load({ params, locals }) {
 
 	const hackathonId = params.hackathonId;
 	try {
+		const participant = await getHackathonParticipantByUserId(user.id, hackathonId);
 		const hackathonJudges = await getHackathonJudgesByHackathonId(hackathonId);
 		const isJudge = hackathonJudges.some((judge) => judge.user_id === user.id);
 		const hackathonTeams = await getHackathonTeamsByHackathonId(hackathonId);
 		const hackathon = getHackathonById(hackathonId);
-		return { user, hackathonTeams, hackathon, isJudge };
+		return { user, hackathonTeams, hackathon, isJudge, participant };
 	} catch (e) {
 		console.log(e);
 	}
