@@ -68,7 +68,7 @@
 			<button
 				on:click={() =>
 					goto(data?.hackathon?.id ? routes.hackathon.results(data.hackathon.id) : '#')}
-				class="btn variant-ghost-secondary"
+				class="btn variant-outline-secondary"
 			>
 				View Results
 			</button>

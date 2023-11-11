@@ -31,7 +31,7 @@
 				</div>
 			</div>
 			<div class="flex flex-none items-center gap-x-4">
-				<a href={routes.hackathon.hackaton(hackathon.id)} class="btn variant-filled-secondary"
+				<a href={routes.hackathon.hackaton(hackathon.id)} class="btn variant-outline-secondary"
 					>View details<span class="sr-only">{hackathon.name}</span></a
 				>
 			</div>
