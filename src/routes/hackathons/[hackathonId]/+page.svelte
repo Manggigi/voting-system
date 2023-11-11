@@ -9,7 +9,7 @@
 	dayjs.extend(utc);
 	dayjs.extend(tz);
 
-	const whyFreedive = '/banner.webp';
+	const whyFreedive = '/card.webp';
 
 	export let data;
 	const deadline: Date = new Date(data.hackathon?.start_date!);
