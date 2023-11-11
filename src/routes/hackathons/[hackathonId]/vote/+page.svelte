@@ -3,15 +3,42 @@
 	import { goto } from '$app/navigation';
 	import { routes } from '$lib/routes.js';
 	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
+	import { initializeStores } from '@skeletonlabs/skeleton';
+	import { Modal, getModalStore } from '@skeletonlabs/skeleton';
+	import type { ModalSettings, ModalComponent, ModalStore } from '@skeletonlabs/skeleton';
+	import Team from "./Team.svelte"
 
 	export let data;
 	let isSubmitting = false;
 	let valueSingle: string;
+
+	let teamName: string; // Will be moved to an array that goes like this: [{team: "MAPEH", hasVoted: true}, {team: "Team Chibog}, hasVoted: false}]
+	let formVisibility: boolean;
+	const changeTeamName = (id: number) => {
+		teamName = data.hackathonTeams && data.hackathonTeams[id] && data.hackathonTeams[id].name ? data.hackathonTeams[id].name: "Something went wrong. Please contact an administrator.";
+		modalRegistry.teamComponent.props.teamNameProp = teamName;
+		modalRegistry.teamComponent.props.formVisibilityProp = true
+		modalStore.trigger(modal);
+	}
+
+	initializeStores();
+	const modalRegistry: Record<string, ModalComponent> = {
+		teamComponent: {
+			ref: Team,
+			props: {teamNameProp: teamName!, formVisibilityProp: formVisibility!}
+		}
+	}
+	const modalStore = getModalStore();
+	const modal: ModalSettings = {
+		type: 'component',
+		component: "teamComponent"
+	};
 </script>
+<Modal components={modalRegistry} />
 
 <h2 class="h2 mt-6 mb-12">{data.hackathon?.name}</h2>
 <!-- TODO: invert this isJudge for testing -->
-{#if !data.isJudge}
+{#if data.isJudge}
 	<form
 		method="post"
 		use:enhance={({ formElement, formData, action, cancel, submitter }) => {
@@ -43,6 +70,16 @@
 			type="submit">{isSubmitting ? 'Submitting...' : 'Submit Vote'}</button
 		>
 	</form>
+<!-- TODO: invert this isJudge after testing -->
+{:else if !data.isJudge}
+	<div>
+		{#each data.hackathonTeams || [] as team, i}
+			<div>
+				<h2>{team.name}</h2>
+				<button on:click={() => changeTeamName(i)}>Vote</button>
+			</div>
+		{/each}
+	</div>
 {:else}
 	<!-- method="post" use:enhance={({ formElement, formData, action, cancel, submitter }) => {
 			isSubmitting = true;
