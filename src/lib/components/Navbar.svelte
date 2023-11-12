@@ -13,8 +13,9 @@
 		<div class="flex h-16 items-center justify-between">
 			<div class="flex items-center">
 				<div class="flex-shrink-0">
-					<!-- TODO: add logo here -->
-					<img class="h-8 w-auto" src="/favicon.webp" alt="Daedalus" />
+					<a href="/">
+						<img class="h-8 w-auto" src="/favicon.webp" alt="Daedalus" />
+					</a>
 				</div>
 				<div class="hidden sm:ml-6 sm:block">
 					<div class="flex space-x-4">
