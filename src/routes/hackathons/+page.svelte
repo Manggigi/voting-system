@@ -6,7 +6,7 @@
 </script>
 
 <div class="space-y-8 pb-12">
-	<PreviousHackatohnWinners />
+	<PreviousHackatohnWinners finalScores={data.finalScores} />
 	<hr />
 
 	<div>
