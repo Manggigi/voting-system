@@ -6,8 +6,15 @@ export const load = async ({ params }) => {
 	try {
 		const hackathon = await getHackathonById(hackathonId);
 		const teams = await getTeamsByHackathonId(hackathonId);
-		const finalScores = await getFinalTeamScore(hackathonId);
-		return { hackathon, teams, finalScores };
+		return {
+			hackathon,
+			teams,
+			streamed: {
+				finalScores: new Promise((fulfil) => {
+					fulfil(getFinalTeamScore(hackathonId));
+				})
+			}
+		};
 	} catch (e) {
 		console.log(e);
 	}

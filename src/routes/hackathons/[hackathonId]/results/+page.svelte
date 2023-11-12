@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CountdownTimer from '@components/CountdownTimer.svelte';
+	import SectionPlaceholder from '@components/placeholders/SectionPlaceholder.svelte';
 	import { onMount } from 'svelte';
 
 	export let data;
@@ -8,12 +9,7 @@
 	let nextMonthTimeStamp = new Date();
 	nextMonthTimeStamp.setMonth(currentTimeStamp.getMonth() + 1);
 
-	let sortedData = data.finalScores?.scoreData.sort((a, b) => b.finalScore - a.finalScore) || [];
-
-	let showOnClient = false;
-	onMount(() => {
-		showOnClient = true;
-	});
+	let showOnClient = true;
 </script>
 
 {#if showOnClient}
@@ -49,14 +45,39 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each sortedData || [] as team, i}
+					{#await data.streamed?.finalScores}
+						{#each Array(5) as i}
+							<tr>
+								<td> <div class="placeholder-circle w-5"></div></td>
+								<td> <div class="placeholder-circle w-5"></div></td>
+								<td> <div class="placeholder-circle w-5"></div></td>
+								<td> <div class="placeholder-circle w-5"></div></td>
+							</tr>
+						{/each}
+					{:then finalScores}
+						{#if finalScores?.['scoreData'].length === 0}
+							<tr>
+								<td colspan="4">No results yet</td>
+							</tr>
+						{:else}
+							{#each finalScores?.['scoreData'] as team, i}
+								<tr>
+									<td>{team.teamName}</td>
+									<td>{team.communityVotes}</td>
+									<td>{team.judgeVotes}</td>
+									<td>{team.finalScore.toFixed(2)}</td>
+								</tr>
+							{/each}
+						{/if}
+					{/await}
+					<!-- {#each sortedData || [] as team, i}
 						<tr>
 							<td>{team.teamName}</td>
 							<td>{team.communityVotes}</td>
 							<td>{team.judgeVotes}</td>
 							<td>{team.finalScore.toFixed(2)}</td>
 						</tr>
-					{/each}
+					{/each} -->
 				</tbody>
 			</table>
 		</div>
