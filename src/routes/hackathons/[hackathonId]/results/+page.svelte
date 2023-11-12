@@ -1,7 +1,5 @@
 <script lang="ts">
 	import CountdownTimer from '@components/CountdownTimer.svelte';
-	import SectionPlaceholder from '@components/placeholders/SectionPlaceholder.svelte';
-	import { onMount } from 'svelte';
 
 	export let data;
 

@@ -1,8 +1,6 @@
 <script lang="ts">
 	import HackathonList from '$lib/components/HackathonList.svelte';
 	import PreviousHackatohnWinners from '@components/PreviousHackatohnWinners.svelte';
-	import SectionPlaceholder from '@components/placeholders/SectionPlaceholder.svelte';
-	import { onMount } from 'svelte';
 
 	export let data;
 </script>
