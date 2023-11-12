@@ -12,14 +12,17 @@
 
 {#if showOnClient}
 	{#if currentTimeStamp < (data.hackathon?.start_date ?? nextMonthTimeStamp) || data.hackathon?.start_date == undefined}
-		<h1>{data.hackathon?.name || "Something's wrong with this page..."}</h1>
-		<h2>Hold your horses!</h2>
-		<p>
-			Voting hasn't even started yet. Check back on <b
-				>{data.hackathon?.start_date.toDateString() ||
-					"another time as we fix what's wrong with this thing"}</b
-			> to start voting!
-		</p>
+		<div class="card mt-12 p-4 text-center text-white">
+			<header class="card-header h2">Hold your horses!</header>
+			<section class="p-4">
+				<h6 class="h6">{data.hackathon?.name || "Something's wrong with this page..."}</h6>
+				<p class="mt-4"></p>
+				Voting hasn't even started yet. Check back on<b>
+					{' ' + data.hackathon?.start_date.toDateString() ||
+						"another time as we fix what's wrong with this thing"}</b
+				> to start voting!
+			</section>
+		</div>
 	{:else if currentTimeStamp >= data.hackathon?.start_date && currentTimeStamp < data.hackathon?.end_date}
 		<div class="card mt-12 p-4 text-center text-white">
 			<header class="card-header h2">It's Voting Time!</header>
