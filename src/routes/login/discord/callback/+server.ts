@@ -24,9 +24,9 @@ export const GET: RequestHandler = async ({ cookies, url, locals }) => {
 		const getUser = async () => {
 			const existingUser = await getExistingUser();
 			if (existingUser) return existingUser;
-			if (!discordUser.verified) {
-				throw new Error('Email not verified');
-			}
+			// if (!discordUser.verified) {
+			// 	throw new Error('Email not verified');
+			// }
 
 			const avatar = discordUser.avatar
 				? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.jpg`
@@ -49,11 +49,11 @@ export const GET: RequestHandler = async ({ cookies, url, locals }) => {
 				name: discordUser.global_name || 'guest',
 				username: discordUser.username,
 				created_at: new Date(),
-				avatar
+				avatar,
+				is_super_admin: 0
 			};
 
 			const user = await createUser({ attributes: newUser });
-
 			return user;
 		};
 		const user = await getUser();
