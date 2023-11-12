@@ -13,7 +13,6 @@
 
 	export let data;
 	const deadline: Date = new Date(data.hackathon?.start_date!);
-
 	// const deadline = dayjs('2023-11-12T23:59:59', 'Asia/Manila');
 	// const deadline = dayjs(new Date('11-12-2023'), 'Asia/Manila');
 	// const startDate = dayjs('2023-11-12T23:59:59', 'Asia/Manila');
@@ -24,7 +23,11 @@
 		if (enableSubmit) {
 			goto(data.user ? routes.hackathon.vote(data.hackathon?.id!) : routes.login);
 		} else {
-			alert('You can submit starting August 11, 2023 UTC+8');
+			alert(
+				`You can submit starting ${dayjs(data.hackathon?.start_date).format(
+					'MMMM DD, YYYY hh:mm A'
+				)}`
+			);
 		}
 	};
 </script>
@@ -38,7 +41,9 @@
 			alt="submit-video"
 			class="w-full aspect-16/9 md:hidden object-cover rounded-lg"
 		/>
-		<h1 class="text-xl md:text-5xl lg:text-6xl font-bold">{data.hackathon?.name}</h1>
+		<h1 class="text-xl md:text-5xl lg:text-6xl font-bold">
+			{data.hackathon?.name.replace('-', '')}
+		</h1>
 		<div class="max-w-md">
 			<p class="text-xs md:text-sm lg:text-lg md:leading-6">Voting System</p>
 			<p class="text-sm font-semibold block md:hidden">
