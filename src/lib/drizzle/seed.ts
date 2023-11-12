@@ -26,7 +26,7 @@ const usersList = [
 	'BadPapi',
 	'HOTDOG',
 	'angry_talong',
-	'DDruan19',
+	'dduran19',
 	'dembahhhhh',
 	'matchu',
 	'Luffy',

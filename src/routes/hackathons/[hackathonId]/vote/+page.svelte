@@ -12,6 +12,8 @@
 	const modalStore = getModalStore();
 
 	const judgeVotedTeams = data.judgeVotes?.map((vote) => vote.hackathon_team_id) || [];
+	const judgeRemainingTeams =
+		data?.hackathonTeams?.filter((team) => !judgeVotedTeams.includes(team.id)) || [];
 
 	const handleChangeTeam = (team: HackathonTeam) => {
 		const modal: ModalSettings = {
@@ -67,14 +69,23 @@
 
 <!-- TODO: invert this isJudge after testing -->
 {#if data.judge}
-	<ul role="list" class="bg-white divide-y divide-gray-100">
-		{#each data?.hackathonTeams?.filter((team) => !judgeVotedTeams.includes(team.id)) || [] as team, i}
-			<li class="flex items-center justify-between gap-x-6 py-5">
-				<h2>{team.name}</h2>
-				<button class="btn variant-outline-secondary" on:click={() => handleChangeTeam(team)}
-					>Vote</button
-				>
-			</li>
-		{/each}
-	</ul>
+	{#if !judgeRemainingTeams.length}
+		<div class="card mt-12 p-4 text-center text-white">
+			<header class="card-header h2">Thank you for voting!</header>
+			<div class="card-body">
+				<p class="text-lg">No teams left to judge</p>
+			</div>
+		</div>
+	{:else}
+		<ul role="list" class="bg-white divide-y divide-gray-100">
+			{#each judgeRemainingTeams as team}
+				<li class="flex items-center justify-between gap-x-6 py-5">
+					<h2>{team.name}</h2>
+					<button class="btn variant-outline-secondary" on:click={() => handleChangeTeam(team)}
+						>Vote</button
+					>
+				</li>
+			{/each}
+		</ul>
+	{/if}
 {/if}
