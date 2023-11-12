@@ -33,13 +33,13 @@ export async function load({ params, locals }) {
 		let judgeVotes: JudgeVote[] = [];
 		const participant = await getHackathonParticipantByUserId(user.id, hackathonId);
 		const hackathonJudges = await getHackathonJudgesByHackathonId(hackathonId);
-		const isJudge = hackathonJudges.some((judge) => judge.user_id === user.id);
-		if (isJudge) {
+		const judge = hackathonJudges.find((judge) => judge.user_id === user.id);
+		if (judge?.id) {
 			judgeVotes = await getJudgeVotesByUserId(user.id, hackathonId);
 		}
 		const hackathonTeams = await getHackathonTeamsByHackathonId(hackathonId);
 		const hackathon = getHackathonById(hackathonId);
-		return { user, hackathonTeams, hackathon, isJudge, participant, judgeVotes };
+		return { user, hackathonTeams, hackathon, judge, participant, judgeVotes };
 	} catch (e) {
 		console.log(e);
 	}
