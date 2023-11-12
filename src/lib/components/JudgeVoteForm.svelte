@@ -24,7 +24,7 @@
 		validationSchema: yup.object().shape({
 			score: yup
 				.number()
-				.typeError('you must specify a number upto 25')
+				.typeError('you must specify a number up to 25')
 				.min(0, 'Min value 0.')
 				.max(25, 'Max score is 25.')
 				.integer()
@@ -68,7 +68,7 @@
 							class="input rounded-lg"
 							bind:value={$form.score}
 							name="score"
-							placeholder="score, upto 25"
+							placeholder="score, up to 25"
 						/>
 						{#if !$form.score}
 							<small class="text-[red] -mt-[10px]">{$errors.score}</small>
