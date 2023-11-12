@@ -5,7 +5,7 @@
 	const modalStore = getModalStore();
 
 	export let parent;
-
+	let formElement: HTMLFormElement;
 	type Meta = {
 		team: HackathonTeam;
 		hackathonId: string;
@@ -25,6 +25,7 @@
 	<div class="fixed inset-0 z-10 w-screen overflow-y-auto">
 		<div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
 			<form
+				bind:this={formElement}
 				method="post"
 				action="?/judgeVote"
 				class="relative transform overflow-hidden rounded-lg bg-slate-200 px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full w-full sm:max-w-lg sm:p-6"
@@ -63,7 +64,13 @@
 				<div class="mt-4 space-y-2 sm:space-y-0 sm:flex sm:align-middle sm:items-center gap-3">
 					<button
 						type="submit"
-						formaction="?/judgeVote"
+						on:click|preventDefault={() => {
+							const res = confirm('Confirm submit vote');
+							console.log('🚀 ~ file: JudgeVote.svelte:70 ~ res:', res);
+							if (res) {
+								formElement.submit();
+							}
+						}}
 						class="btn variant-filled-secondary w-full order-2"
 					>
 						Submit Vote

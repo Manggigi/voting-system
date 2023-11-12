@@ -10,6 +10,9 @@
 	let isSubmitting = false;
 	let valueSingle: string;
 	const modalStore = getModalStore();
+
+	const judgeVotedTeams = data.judgeVotes?.map((vote) => vote.hackathon_team_id) || [];
+
 	const handleChangeTeam = (team: HackathonTeam) => {
 		const modal: ModalSettings = {
 			type: 'component',
@@ -27,7 +30,7 @@
 
 <h2 class="h2 mt-6 mb-12">{data.hackathon?.name}</h2>
 <!-- TODO: invert this isJudge for testing -->
-{#if data.participant}
+{#if !data.participant}
 	<form
 		method="post"
 		action="?/userVote"
@@ -63,13 +66,15 @@
 {/if}
 
 <!-- TODO: invert this isJudge after testing -->
-{#if data.judge}
-	<div>
-		{#each data.hackathonTeams || [] as team, i}
-			<div>
+{#if !data.judge}
+	<ul role="list" class="bg-white divide-y divide-gray-100">
+		{#each data?.hackathonTeams?.filter((team) => !judgeVotedTeams.includes(team.id)) || [] as team, i}
+			<li class="flex items-center justify-between gap-x-6 py-5">
 				<h2>{team.name}</h2>
-				<button on:click={() => handleChangeTeam(team)}>Vote</button>
-			</div>
+				<button class="btn variant-outline-secondary" on:click={() => handleChangeTeam(team)}
+					>Vote</button
+				>
+			</li>
 		{/each}
-	</div>
+	</ul>
 {/if}

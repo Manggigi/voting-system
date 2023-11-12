@@ -7,7 +7,6 @@ export const load = async ({ params }) => {
 		const hackathon = await getHackathonById(hackathonId);
 		const teams = await getTeamsByHackathonId(hackathonId);
 		const finalScores = await getFinalTeamScore(hackathonId);
-		console.log(teams.length);
 		return { hackathon, teams, finalScores };
 	} catch (e) {
 		console.log(e);
