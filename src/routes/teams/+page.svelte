@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+
 	export let data;
 	let groupedTeams = {};
 
@@ -11,16 +13,52 @@
 			return acc;
 		}, {});
 	}
+	let title = 'Daedalus Hackathon - Season ';
+
+	let showOnClient = false;
+	onMount(() => {
+		setTimeout(() => {
+			showOnClient = true;
+		}, 2000);
+	});
 </script>
 
-<h1 class="h3">Teams list</h1>
-{#each Object.keys(groupedTeams) as hackathonId}
-	<div class="card p-4 my-4 text-neutral-100">
-		<h2>Hackathon {data.hackathons?.find((hackathon) => hackathon.id === hackathonId)?.name}</h2>
-		<ol class="list text-neutral-300">
-			{#each groupedTeams[hackathonId] as team}
-				<li>{team.name}</li>
-			{/each}
-		</ol>
-	</div>
-{/each}
+{#if showOnClient && Object.keys(groupedTeams).length}
+	{#each Object.keys(groupedTeams) as hackathonId}
+		<div class="text-white mb-4">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>{data.hackathons?.find((hackathon) => hackathon.id === hackathonId)?.name}</th>
+					</tr>
+				</thead>
+				{#each groupedTeams[hackathonId] as team}
+					<tbody>
+						<tr>
+							<td>{team.name}</td>
+						</tr>
+					</tbody>
+				{/each}
+			</table>
+		</div>
+	{/each}
+{:else}
+	{#each Array(3) as _, index}
+		<div class="text-white mb-4">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>{title} {index + 1}</th>
+					</tr>
+				</thead>
+				{#each Array(5) as i}
+					<tbody>
+						<tr>
+							<td><div class="placeholder w-40 h-5 animate-pulse"></div></td>
+						</tr>
+					</tbody>
+				{/each}
+			</table>
+		</div>
+	{/each}
+{/if}
