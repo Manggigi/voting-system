@@ -21,10 +21,10 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td><div class="placeholder-circle w-5"></div></td>
-							<td><div class="placeholder-circle w-5"></div></td>
-							<td><div class="placeholder-circle w-5"></div></td>
-							<td><div class="placeholder-circle w-5"></div></td>
+							<td><div class="placeholder-circle w-5 animate-pulse"></div></td>
+							<td><div class="placeholder-circle w-5 animate-pulse"></div></td>
+							<td><div class="placeholder-circle w-5 animate-pulse"></div></td>
+							<td><div class="placeholder-circle w-5 animate-pulse"></div></td>
 						</tr>
 					</tbody>
 				</table>

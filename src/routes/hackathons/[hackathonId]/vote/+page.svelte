@@ -32,7 +32,7 @@
 	};
 </script>
 
-<h2 class="h2 mt-6 mb-12">{data.hackathon?.name}</h2>
+<h2 class="h2 mt-6 mb-12 animate-pulse">{data.hackathon?.name}</h2>
 <!-- TODO: invert this isJudge for testing -->
 {#if data.participant}
 	<form
