@@ -3,7 +3,8 @@ import { getHackathonById, getHackathons } from '$lib/hackathons';
 import type { Hackathon } from '@types';
 import type { LayoutServerLoad } from './$types';
 
-export const load = (async ({ locals }) => {
+export const load = (async ({ locals, params }) => {
+	const { hackathonId } = params;
 	// await seed();
 	let hackathons: Hackathon[] = [];
 	let hackathon: Hackathon | null = null;
@@ -23,12 +24,14 @@ export const load = (async ({ locals }) => {
 		return {
 			hackathon,
 			user: locals.user,
-			hackathons
+			hackathons,
+			hackathonId
 		};
 	}
 
 	return {
 		hackathon,
-		hackathons
+		hackathons,
+		hackathonId
 	};
 }) satisfies LayoutServerLoad;

@@ -13,13 +13,11 @@
 <div class="text-slate-800">
 	<Navbar user={data.user} />
 
-	{#if $page.route.id === '/'}
+	{#if $page.route.id === '/' || data.hackathonId}
 		<slot />
 	{:else}
-		<main class="min-h-screen pt-20 bg-white">
-			<Container>
-				<slot />
-			</Container>
-		</main>
+		<Container>
+			<slot />
+		</Container>
 	{/if}
 </div>
