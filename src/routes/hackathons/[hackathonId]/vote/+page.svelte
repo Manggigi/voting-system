@@ -30,7 +30,7 @@
 
 <h2 class="h2 mt-6 mb-12">{data.hackathon?.name}</h2>
 <!-- TODO: invert this isJudge for testing -->
-{#if !data.participant}
+{#if data.participant}
 	<form
 		method="post"
 		action="?/userVote"
@@ -66,7 +66,7 @@
 {/if}
 
 <!-- TODO: invert this isJudge after testing -->
-{#if !data.judge}
+{#if data.judge}
 	<ul role="list" class="bg-white divide-y divide-gray-100">
 		{#each data?.hackathonTeams?.filter((team) => !judgeVotedTeams.includes(team.id)) || [] as team, i}
 			<li class="flex items-center justify-between gap-x-6 py-5">
