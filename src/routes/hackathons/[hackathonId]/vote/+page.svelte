@@ -2,17 +2,13 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { routes } from '$lib/routes.js';
-	import { ListBox, ListBoxItem } from '@skeletonlabs/skeleton';
-	import { initializeStores } from '@skeletonlabs/skeleton';
-	import { Modal, getModalStore } from '@skeletonlabs/skeleton';
-	import type { ModalSettings, ModalComponent, ModalStore } from '@skeletonlabs/skeleton';
-	import Team from './Team.svelte';
+	import type { ModalSettings } from '@skeletonlabs/skeleton';
+	import { ListBox, ListBoxItem, getModalStore } from '@skeletonlabs/skeleton';
 	import type { HackathonTeam } from '@types';
 
 	export let data;
 	let isSubmitting = false;
 	let valueSingle: string;
-
 	const modalStore = getModalStore();
 	const handleChangeTeam = (team: HackathonTeam) => {
 		const modal: ModalSettings = {
@@ -20,20 +16,21 @@
 			component: 'judgeVote',
 			meta: {
 				team: team,
-				userId: data.user?.id
+				hackathonId: team.hackathon_id,
+				userId: data.user?.id,
+				judgeId: data.judge?.id
 			}
 		};
 		modalStore.trigger(modal);
 	};
-
-	// data.isJudge = !data.isJudge; // Comment to retain normal logic. Uncomment to reverse.
 </script>
 
 <h2 class="h2 mt-6 mb-12">{data.hackathon?.name}</h2>
 <!-- TODO: invert this isJudge for testing -->
-{#if data.judge}
+{#if data.participant}
 	<form
 		method="post"
+		action="?/userVote"
 		use:enhance={({ formElement, formData, action, cancel, submitter }) => {
 			isSubmitting = true;
 			return async ({ result, update }) => {
@@ -63,14 +60,15 @@
 			type="submit">{isSubmitting ? 'Submitting...' : 'Submit Vote'}</button
 		>
 	</form>
-	<!-- TODO: invert this isJudge after testing -->
-{:else}
+{/if}
+
+<!-- TODO: invert this isJudge after testing -->
+{#if data.judge}
 	<div>
 		{#each data.hackathonTeams || [] as team, i}
 			<div>
 				<h2>{team.name}</h2>
 				<button on:click={() => handleChangeTeam(team)}>Vote</button>
-				<!-- Rename changeTeamName to something that suits the function better -->
 			</div>
 		{/each}
 	</div>
