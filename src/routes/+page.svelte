@@ -12,7 +12,7 @@
 	const whyFreedive = '/card.webp';
 
 	export let data;
-	const deadline: Date = new Date(data.hackathon?.start_date!);
+	const deadline: Date = new Date('11-12-2023 22:00');
 
 	// const deadline = dayjs('2023-11-12T23:59:59', 'Asia/Manila');
 	// const deadline = dayjs(new Date('11-12-2023'), 'Asia/Manila');
@@ -40,7 +40,9 @@
 			alt="submit-video"
 			class="w-full aspect-16/9 md:hidden object-cover rounded-lg"
 		/>
-		<h1 class="text-xl md:text-5xl lg:text-6xl font-bold">{data.hackathon?.name}</h1>
+		<h1 class="text-xl md:text-5xl lg:text-6xl font-bold">
+			{data.hackathon?.name || 'Welcome to Daedalus'}
+		</h1>
 		<div class="max-w-md">
 			<p class="text-xs md:text-sm lg:text-lg md:leading-6">Voting System</p>
 			<p class="text-sm font-semibold block md:hidden">
@@ -52,7 +54,11 @@
 				<b class="text-secondary text-4xl">
 					<!-- MM-DD-YYYY HH:mm -> new Date('11-12-2023 22:00')  -->
 					<!-- default to 12am if no time provided -> new Date('11-12-2023') -->
-					<CountdownTimer {deadline} />
+					{#if !!deadline}
+						<CountdownTimer {deadline} />
+					{:else}
+						"Coming Soon"
+					{/if}
 				</b>
 				<br />
 				voting will start on {dayjs(deadline).format('MMMM DD, YYYY hh:mm A')}

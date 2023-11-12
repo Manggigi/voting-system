@@ -119,7 +119,7 @@ const newHackathonParticipants: NewHackathonParticipant[] = newHackathons.flatMa
 	});
 });
 
-const judgesList = ['directormac', 'mjrolex', 'jesymn'];
+const judgesList = ['directormac', 'mjrolex', 'jesymn', 'ichthyopithecus'];
 const judgeUsers: NewUser[] = judgesList.map((user) => userBuilder(user));
 
 const newHackathonJudges: NewHackathonJudge[] = newHackathons.flatMap((hackathon) => {
