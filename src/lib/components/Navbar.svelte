@@ -31,11 +31,11 @@
 								class="btn text-[rgb(var(--color-secondary-200))] hover:variant-soft-surface"
 								>Teams</a
 							>
-							<a
+							<!-- <a
 								href={routes.judges.base}
 								class="btn text-[rgb(var(--color-secondary-200))] hover:variant-soft-surface"
 								>Judges</a
-							>
+							> -->
 						{/if}
 					</div>
 				</div>
