@@ -8,6 +8,13 @@
 			"when": 1699761516319,
 			"tag": "0000_normal_sleepwalker",
 			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "5",
+			"when": 1699775054656,
+			"tag": "0001_gigantic_mad_thinker",
+			"breakpoints": true
 		}
 	]
 }

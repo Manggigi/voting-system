@@ -17,7 +17,8 @@ export const users = pgTable(
 		name: text('name').notNull(),
 		username: text('username').notNull(),
 		avatar: text('avatar').notNull(),
-		created_at: timestamp('created_at').defaultNow().notNull()
+		created_at: timestamp('created_at').defaultNow().notNull(),
+		is_super_admin: integer('is_super_admin').default(0).notNull()
 	},
 	(users) => {
 		return {
