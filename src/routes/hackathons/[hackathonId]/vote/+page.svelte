@@ -2,9 +2,11 @@
 	import { enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import { routes } from '$lib/routes.js';
+	import { receive, send } from '$lib/transitions.js';
 	import type { ModalSettings } from '@skeletonlabs/skeleton';
 	import { ListBox, ListBoxItem, getModalStore } from '@skeletonlabs/skeleton';
 	import type { HackathonTeam } from '@types';
+	import { flip } from 'svelte/animate';
 
 	export let data;
 	let isSubmitting = false;
@@ -78,8 +80,13 @@
 		</div>
 	{:else}
 		<ul role="list" class="bg-white divide-y divide-gray-100">
-			{#each judgeRemainingTeams as team}
-				<li class="flex items-center justify-between gap-x-6 py-5">
+			{#each judgeRemainingTeams as team (team.id)}
+				<li
+					in:receive={{ key: team.id }}
+					out:send={{ key: team.id }}
+					animate:flip={{ duration: 200 }}
+					class="flex items-center justify-between gap-x-6 py-5"
+				>
 					<h2>{team.name}</h2>
 					<button class="btn variant-outline-secondary" on:click={() => handleChangeTeam(team)}
 						>Vote</button
