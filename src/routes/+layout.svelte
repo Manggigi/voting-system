@@ -5,10 +5,21 @@
 	import '../app.postcss';
 	// Floating UI for Popups
 	import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
-	import { storePopup } from '@skeletonlabs/skeleton';
 	storePopup.set({ computePosition, autoUpdate, flip, shift, offset, arrow });
 	export let data;
+
+	import JudgeVote from '@components/JudgeVote.svelte';
+	import { initializeStores, storePopup, type ModalComponent, Modal } from '@skeletonlabs/skeleton';
+
+	initializeStores();
+
+	const modalRegistry: Record<string, ModalComponent> = {
+		// Set a unique modal ID, then pass the component reference
+		judgeVote: { ref: JudgeVote }
+	};
 </script>
+
+<Modal components={modalRegistry} />
 
 <div class="text-slate-800">
 	<Navbar user={data.user} />
