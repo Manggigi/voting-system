@@ -64,6 +64,14 @@ export const getHackathonTeamsByHackathonId = async (hackathonId: string) => {
 	return hackathonTeamsData;
 };
 
+export const getJudgeByUserId = async (userId: string) => {
+	const judgeData = await db
+		.select()
+		.from(hackathonJudges)
+		.where(eq(hackathonJudges.user_id, userId));
+	return judgeData[0];
+};
+
 export const getJudgesByHackathonId = async (hackathonId: string) => {
 	const hackathonJudgesData = await db
 		.select()
