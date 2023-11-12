@@ -1,4 +1,5 @@
 import {
+	createJudgeVote,
 	createUserVote,
 	getHackathonById,
 	getHackathonJudgesByHackathonId,
@@ -64,6 +65,36 @@ export const actions = {
 					user_id: user_id
 				};
 				await createUserVote(vote);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	},
+	judgeVote: async ({ request, params }) => {
+		const hackathonId = params.hackathonId;
+		const form = await request.formData();
+		const hackathon_team_id = (form.get('hackathon_team_id') ?? '') as string;
+		const user_id = (form.get('user_id') ?? '') as string;
+		const hackathon_judge_id = (form.get('hackathon_judge_id') ?? '') as string;
+		const comments = (form.get('comments') ?? '') as string;
+		const score = (form.get('score') ?? '') as string;
+		if (!hackathon_team_id || !user_id || !hackathon_judge_id || !score || !comments) return;
+
+		// if (!hackathon_team_id || !user_id || !score || !comments) return; //for testing non judge user
+
+		try {
+			if (hackathon_team_id && user_id && hackathon_judge_id && score) {
+				const vote: JudgeVote = {
+					id: nanoid(),
+					hackathon_id: hackathonId,
+					hackathon_team_id,
+					user_id,
+					hackathon_judge_id,
+					comments,
+					score: Number(score),
+					created_at: new Date()
+				};
+				await createJudgeVote(vote);
 			}
 		} catch (error) {
 			console.error(error);
