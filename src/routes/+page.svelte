@@ -40,7 +40,7 @@
 			alt="submit-video"
 			class="w-full aspect-16/9 md:hidden object-cover rounded-lg"
 		/>
-		<h1 class="text-xl md:text-5xl lg:text-6xl font-bold">
+		<h1 class="text-xl md:text-5xl lg:text-6xl font-bold animate-pulse">
 			{data.hackathon?.name || 'Welcome to Daedalus'}
 		</h1>
 		<div class="max-w-md">

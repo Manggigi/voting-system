@@ -50,7 +50,9 @@
 				<b class="text-secondary text-4xl">
 					<!-- MM-DD-YYYY HH:mm -> new Date('11-12-2023 22:00')  -->
 					<!-- default to 12am if no time provided -> new Date('11-12-2023') -->
-					<CountdownTimer {deadline} />
+					<span class="animate-ping">
+						<CountdownTimer {deadline} />
+					</span>
 				</b>
 				<br />
 				voting will start on {dayjs(deadline).format('MMMM DD, YYYY hh:mm A')}

@@ -20,23 +20,20 @@
 					<div class="flex space-x-4">
 						<!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
 						<a href={routes.home} class="btn variant-soft-secondary">Home</a>
-						{#if isLoggedIn}
-							<a
-								href={routes.hackathon.base}
-								class="btn text-[rgb(var(--color-secondary-200))] hover:variant-soft-surface"
-								>Hackathons</a
-							>
-							<a
-								href={routes.teams.base}
-								class="btn text-[rgb(var(--color-secondary-200))] hover:variant-soft-surface"
-								>Teams</a
-							>
-							<!-- <a
+						<a
+							href={routes.hackathon.base}
+							class="btn text-[rgb(var(--color-secondary-200))] hover:variant-soft-surface"
+							>Hackathons</a
+						>
+						<a
+							href={routes.teams.base}
+							class="btn text-[rgb(var(--color-secondary-200))] hover:variant-soft-surface">Teams</a
+						>
+						<!-- <a
 								href={routes.judges.base}
 								class="btn text-[rgb(var(--color-secondary-200))] hover:variant-soft-surface"
 								>Judges</a
 							> -->
-						{/if}
 					</div>
 				</div>
 			</div>
