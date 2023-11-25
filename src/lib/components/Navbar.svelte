@@ -43,7 +43,8 @@
 					<!-- Profile dropdown -->
 					{#if isLoggedIn}
 						<div class="relative ml-3">
-							<div>
+							<div class="flex items-center gap-4">
+								<span class="text-gray-200">{user?.name}</span>
 								<button
 									type="button"
 									class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
